@@ -1,0 +1,22 @@
+{
+  "name": "pokecord-bot",
+  "version": "1.0.0",
+  "description": "A bot for catching, leveling and trading pokecord pokemon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qendolin/pokecord-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qendolin/pokecord-bot/issues"
+  },
+  "homepage": "https://github.com/Qendolin/pokecord-bot#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
