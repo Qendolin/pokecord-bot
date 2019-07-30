@@ -8,8 +8,7 @@ git clone https://github.com/Qendolin/pokecord-bot.git .
 echo Reccomended VSCode extensions:
 echo.
 echo * Prettier - Code Formatter
-echo * TypeScipt Hero
-echo * TSLint
+echo * ESLint
 echo * GitLens
 echo.
 
