@@ -6,16 +6,22 @@ export class TokenHijacker {
 			window.localStorage.constructor.name === 'Storage'
 		)
 			return
-		const handle = window.open(window.location.href, 'Discord thinks it can outsmart ME!!??!')
-		const storage = handle.localStorage
+
+		const frame = document.createElement('iframe')
+		frame.src = ''
+		frame.style.setProperty('display', 'none', 'important')
+		document.body.appendChild(frame)
+
+		const handle = frame.contentWindow
+
 		delete window.localStorage
+		const storage = handle.localStorage
 		Object.defineProperty(window, 'localStorage', {
 			set: () => false,
 			get: () => storage,
-			configurable: false,
+			configurable: true,
 			enumerable: true
 		})
-		handle.close()
 	}
 
 	static disableDevToolsCheck() {
