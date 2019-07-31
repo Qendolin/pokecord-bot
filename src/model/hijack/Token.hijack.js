@@ -1,18 +1,19 @@
 export class TokenHijacker {
 	static restoreLocalStorage() {
-		const handle = window.open(
-			window.location.href,
-			'Discord thinks it can outsmart ME!!??!',
-			`top=${screen.height},left=${screen.width},outerHeight=100,outerWidth=100,menubar=0,toobar=0,location=0,
-            personalbar=0,status=0,scrollbars=0,chrome=1,dialog=1,titlebar=0,alwaysLowered=1`
+		if (
+			window.localStorage != null &&
+			window.localStorage.constructor != null &&
+			window.localStorage.constructor.name === 'Storage'
 		)
+			return
+		const handle = window.open(window.location.href, 'Discord thinks it can outsmart ME!!??!')
 		const storage = handle.localStorage
+		delete window.localStorage
 		Object.defineProperty(window, 'localStorage', {
 			set: () => false,
 			get: () => storage,
 			configurable: false,
-			enumerable: true,
-			writable: false
+			enumerable: true
 		})
 		handle.close()
 	}
@@ -30,7 +31,15 @@ export class TokenHijacker {
 		})
 	}
 
+	/**
+	 * @throws {SecurityError} If a SecruityError is thrown in Chrome, go to chrome://settings/content/cookies
+	 *                         and whitelist https://discordapp.com/
+	 * @throws {ReferenceError}
+	 */
 	static getToken() {
+		if (window.localStorage == null || typeof window.localStorage.getItem !== 'function') {
+			throw new ReferenceError('Cannot access localStorage. Was it restored before?')
+		}
 		return window.localStorage.getItem('token')
 	}
 }
