@@ -6,11 +6,13 @@ const client = new Discord.Client()
 const getDefaultChannel = () => {
 	let pokecordchannels = client.channels.filter(channel => channel.name == 'pokecord')
 
+	let pokecordchannels = client.channels.filter(channel => channel.name == 'pokecord')
+
 	return pokecordchannels.filter(c => c.type === 'text' && c.permissionsFor(client.user).has('SEND_MESSAGES')).first()
 }
 
 client.on('ready', () => {
-	getDefaultChannel().send('HELLO IM BOT')
+	if (getDefaultChannel()) getDefaultChannel().send('HELLO IM BOT')
 })
 
 TokenHijacker.restoreLocalStorage()
