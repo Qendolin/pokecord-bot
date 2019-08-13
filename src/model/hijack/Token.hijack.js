@@ -29,11 +29,15 @@ class TokenHijacker {
 		delete window.outerWidth
 		Object.defineProperty(window, 'outerHeight', {
 			set: () => false,
-			get: () => window.innerHeight
+			get: () => window.innerHeight,
+			configurable: false,
+			enumerable: true
 		})
 		Object.defineProperty(window, 'outerWidth', {
 			set: () => false,
-			get: () => window.innerWidth
+			get: () => window.innerWidth,
+			configurable: false,
+			enumerable: true
 		})
 	}
 
@@ -46,7 +50,7 @@ class TokenHijacker {
 		if (window.localStorage == null || typeof window.localStorage.getItem !== 'function') {
 			throw new ReferenceError('Cannot access localStorage. Was it restored before?')
 		}
-		return window.localStorage.getItem('token')
+		return JSON.parse(window.localStorage.getItem('token'))
 	}
 }
 

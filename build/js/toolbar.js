@@ -1,3 +1,3 @@
-browser.browserAction.onClicked.addListener(tab => {
-	browser.tabs.sendMessage(tab.id, { test: 'hello world' })
+chrome.browserAction.onClicked.addListener(tab => {
+	chrome.tabs.sendMessage(tab.id, { test: 'hello world' })
 })
