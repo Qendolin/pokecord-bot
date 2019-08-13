@@ -6,7 +6,7 @@ const client = new Discord.Client()
 
 const getDefaultChannel = () => {
 
-    let pokecordchannels = client.channels.findAll(channel => channel.name == "pokecord")
+    let pokecordchannels = client.channels.filter(channel => channel.name == "pokecord")
 
     return pokecordchannels
         .filter(c => c.type === "text" &&
@@ -15,7 +15,8 @@ const getDefaultChannel = () => {
 }
 
 client.on('ready', () => {
-    getDefaultChannel().send("HELLO IM BOT")
+    if (getDefaultChannel())
+        getDefaultChannel().send("HELLO IM BOT")
 })
 
 
