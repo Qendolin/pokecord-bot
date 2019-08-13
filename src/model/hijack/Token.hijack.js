@@ -1,5 +1,5 @@
-export class TokenHijacker {
-	static restoreLocalStorage() {
+class TokenHijacker {
+	restoreLocalStorage() {
 		if (
 			window.localStorage != null &&
 			window.localStorage.constructor != null &&
@@ -24,7 +24,7 @@ export class TokenHijacker {
 		})
 	}
 
-	static disableDevToolsCheck() {
+	disableDevToolsCheck() {
 		delete window.outerHeight
 		delete window.outerWidth
 		Object.defineProperty(window, 'outerHeight', {
@@ -42,10 +42,12 @@ export class TokenHijacker {
 	 *                         and whitelist https://discordapp.com/
 	 * @throws {ReferenceError}
 	 */
-	static getToken() {
+	getToken() {
 		if (window.localStorage == null || typeof window.localStorage.getItem !== 'function') {
 			throw new ReferenceError('Cannot access localStorage. Was it restored before?')
 		}
 		return window.localStorage.getItem('token')
 	}
 }
+
+module.exports = TokenHijacker
