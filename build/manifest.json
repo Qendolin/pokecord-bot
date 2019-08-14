@@ -1,0 +1,21 @@
+{
+	"manifest_version": 2,
+	"name": "Pokecord Bot",
+	"version": "1.0",
+	"description": "TODO",
+
+	"content_scripts": [
+		{
+			"matches": ["https://discordapp.com/channels/*"],
+			"js": ["js/bot.js"]
+		}
+	],
+
+	"background": {
+		"scripts": ["js/toolbar.js"]
+	},
+
+	"browser_action": {
+		"default_title": "Hello World"
+	}
+}
