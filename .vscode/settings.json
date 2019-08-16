@@ -1,4 +1,13 @@
 {
 	"prettier.tslintIntegration": true,
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"cmd": "npm run build",
+				"isAsync": true,
+				"match": "(?:\\.js$)|(?:manifest\\.json)"
+			}
+		]
+	}
 }
