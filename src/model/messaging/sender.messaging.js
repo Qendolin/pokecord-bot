@@ -1,7 +1,7 @@
-const tokenHijacker = require('../hijack/Token.hijack')
-const TokenHijacker = new tokenHijacker()
+const TokenHijacker = new (require('../hijack/token.hijack'))()
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const Logger = new (require('../logging/logger.logging'))()
 
 const getDefaultChannel = () => {
 	let pokecordchannels = client.channels.filter(channel => channel.name == 'pokecord')
@@ -10,29 +10,21 @@ const getDefaultChannel = () => {
 }
 
 client.on('ready', () => {
-	console.log('client ready')
-	if (getDefaultChannel()) getDefaultChannel().send('HELLO IM BOT')
+	Logger.log('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
+	if (getDefaultChannel())
+		getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
 })
 
-window.addEventListener('load', () => {
-	TokenHijacker.restoreLocalStorage()
-	TokenHijacker.disableDevToolsCheck()
-	requestAnimationFrame(() => {
-		requestAnimationFrame(() => {
-			const token = TokenHijacker.getToken()
-			if (token == null) {
-				console.error('Token is null')
-				return
-			}
-			client
-				.login(token)
-				.then(console.log)
-				.catch(console.error)
-		})
-	})
-})
+Logger.log('disabling dev tools check')
+TokenHijacker.disableDevToolsCheck()
+const token = TokenHijacker.getToken()
+if (token == null) {
+	Logger.error('Token is null')
+	return
+}
+client.login(token).catch(Logger.error)
 
 chrome.runtime.onMessage.addListener(msg => {
-	console.log(msg)
+	Logger.debug(msg)
 	getDefaultChannel().send(msg.test)
 })
