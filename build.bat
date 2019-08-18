@@ -5,7 +5,7 @@ copy ".\src\manifest.json" ".\build\"
 copy ".\src\toolbar.js" ".\build\js\"
 
 echo Running Browserify
-cmd /C npx browserify ./src/model/messaging/sender.messaging.js -o ./build/js/bot.js
+cmd /C npx browserify ./src/main.js -o ./build/js/bot.js
 
 rd /S /Q "dist"
 mkdir "dist"

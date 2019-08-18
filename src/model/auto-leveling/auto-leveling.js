@@ -6,7 +6,7 @@ module.exports = class AutoLeveling {
     /**
     * @param {int[]} pkmnIds
     */
-    autoLevel(pkmnIds) {
+    startAutoLevel(pkmnIds) {
         let currentPokemon = 0;
         messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
         var interval = setInterval(() => {
@@ -15,13 +15,17 @@ module.exports = class AutoLeveling {
             } else {
                 currentPokemon++;
                 messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
-                if (currentPokemon > pkmnIds.length) clearInterval(interval)
+                if (currentPokemon > pkmnIds.length) this.stopAutoLevel()
             }
         }, 1000);
     }
 
+    stopAutoLevel() {
+        clearInterval(interval)
+    }
+
     pkmIsLvl100() {
-        if (messaging.getMessage().sender == "" && messaging.getMessage().message == "") {
+        if (messaging.getMessage().sender == "Pokécord" && messaging.getMessage().message.match(new RegExp(`Congratulations ${messaging.client.user.username}! Your (?:\w+) is now level 100!`))) {
             return true;
         }
         return false;
