@@ -11,8 +11,9 @@ const getDefaultChannel = () => {
 
 client.on('ready', () => {
 	Logger.log('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
-	if (getDefaultChannel())
+	if (getDefaultChannel()) {
 		getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
+	}
 })
 
 Logger.log('disabling dev tools check')
@@ -20,7 +21,6 @@ TokenHijacker.disableDevToolsCheck()
 const token = TokenHijacker.getToken()
 if (token == null) {
 	Logger.error('Token is null')
-	return
 }
 client.login(token).catch(Logger.error)
 
