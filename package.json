@@ -18,8 +18,8 @@
 	"homepage": "https://github.com/Qendolin/pokecord-bot#readme",
 	"dependencies": {
 		"browserify": "^16.5.0",
+		"cost-of-modules": "^1.0.1",
 		"discord.js": "^11.5.1",
-		"semicolonize": "^0.1.0",
-		"simple-node-logger": "^18.12.23"
+		"uglifyjs-browser": "^3.0.0"
 	}
 }
