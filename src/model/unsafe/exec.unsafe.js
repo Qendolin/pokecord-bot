@@ -1,4 +1,4 @@
-var uglify = require('uglifyjs-browser')
+const uglify = require('uglifyjs-browser')
 
 module.exports = {
 	/**
@@ -11,8 +11,10 @@ module.exports = {
 		if (typeof window.wrappedJSObject !== 'undefined') {
 			window.eval(`(${func.toString()})()`)
 		} else {
-			const result = uglify.minify(code)
-			if (result.error) throw result.error
+			const result = uglify.minify(func.toString())
+			if (result.error) {
+				throw result.error
+			}
 			location.href = `javascript: (() => {${result.code}})()`
 		}
 	}
