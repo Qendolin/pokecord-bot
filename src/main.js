@@ -6,8 +6,8 @@ main()
 
 function main() {
     messaging.enableMessaging()
-    //messaging.getClient().on('ready', () => {
-    //    autolvling.startAutoLevel([100, 110])
-    //})
+    messaging.getClient().on('ready', () => {
+        autolvling.startAutoLevel([100, 110])
+    })
 
 }

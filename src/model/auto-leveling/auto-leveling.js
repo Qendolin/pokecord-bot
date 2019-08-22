@@ -10,7 +10,7 @@ module.exports = class AutoLeveling {
     startAutoLevel(pkmnIds) {
         let currentPokemon = 0;
         this.messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
-        var interval = setInterval(() => {
+        this.interval = setInterval(() => {
             if (!this.pkmIsLvl100()) {
                 this.messaging.sendMessage(this.randomText())
             } else {
@@ -18,18 +18,29 @@ module.exports = class AutoLeveling {
                 this.messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
                 if (currentPokemon > pkmnIds.length) this.stopAutoLevel()
             }
-        }, 1000);
+        }, 1500);
     }
 
     stopAutoLevel() {
-        clearInterval(interval)
+        clearInterval(this.interval)
     }
 
     pkmIsLvl100() {
-        if (this.messaging.getMessage().sender == "Pokécord" && this.messaging.getMessage().message.match(new RegExp(`Congratulations ${this.messaging.getClient().user.username}! Your (?:\w+) is now level 30!`))) {
+        const actualMessage = this.messaging.getMessage()
+        let pokemonName = this.getPokemonName(actualMessage.message.description, 2)
+        console.log("Selected Pokemon : " + pokemonName)
+        if (actualMessage.sender === "Pokécord" &&
+            actualMessage.message.title === `Congratulations ${this.messaging.getClient().user.username}!` &&
+            actualMessage.message.description === `Your ${pokemonName} is now level 100!`) {
+            this.messaging.resetSender()
             return true;
         }
         return false;
+    }
+
+    getPokemonName(str, wordIndex) {
+        let e = str.match('^(?:.+?[\\s.,;]+){' + (wordIndex - 1) + '}([^\\s.,;]+)');
+        return e && e[1];
     }
 
     randomText() {
