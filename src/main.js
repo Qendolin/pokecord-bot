@@ -1,9 +1,13 @@
-const autolvling = new (require('./model/auto-leveling/auto-leveling'))()
 const messaging = new (require('./model/messaging/sender.messaging'))()
+const autolvling = new (require('./model/auto-leveling/auto-leveling'))(messaging)
+
 
 main()
 
 function main() {
     messaging.enableMessaging()
-    autolvling.autoLevel([100, 110])
+    //messaging.getClient().on('ready', () => {
+    //    autolvling.startAutoLevel([100, 110])
+    //})
+
 }

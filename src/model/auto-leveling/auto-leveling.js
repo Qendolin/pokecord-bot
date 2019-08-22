@@ -1,20 +1,21 @@
 
-const messaging = require('../messaging/sender.messaging')
-
 module.exports = class AutoLeveling {
 
+    constructor(messaging) {
+        this.messaging = messaging
+    }
     /**
     * @param {int[]} pkmnIds
     */
     startAutoLevel(pkmnIds) {
         let currentPokemon = 0;
-        messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
+        this.messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
         var interval = setInterval(() => {
             if (!this.pkmIsLvl100()) {
-                messaging.sendMessage(this.randomText())
+                this.messaging.sendMessage(this.randomText())
             } else {
                 currentPokemon++;
-                messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
+                this.messaging.sendMessage(`.select ${pkmnIds[currentPokemon]}`)
                 if (currentPokemon > pkmnIds.length) this.stopAutoLevel()
             }
         }, 1000);
@@ -25,7 +26,7 @@ module.exports = class AutoLeveling {
     }
 
     pkmIsLvl100() {
-        if (messaging.getMessage().sender == "Pokécord" && messaging.getMessage().message.match(new RegExp(`Congratulations ${messaging.client.user.username}! Your (?:\w+) is now level 100!`))) {
+        if (this.messaging.getMessage().sender == "Pokécord" && this.messaging.getMessage().message.match(new RegExp(`Congratulations ${this.messaging.getClient().user.username}! Your (?:\w+) is now level 30!`))) {
             return true;
         }
         return false;
@@ -35,7 +36,7 @@ module.exports = class AutoLeveling {
         let min = 4;
         let max = 10;
         let length =
-            Math.floor(Math.random() * (max - min)) + emin;
+            Math.floor(Math.random() * (max - min)) + min;
         let result = '';
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;

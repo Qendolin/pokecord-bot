@@ -10,29 +10,59 @@ const getDefaultChannel = () => {
 
     return pokecordchannels.filter(c => c.type === 'text' && c.permissionsFor(client.user).has('SEND_MESSAGES')).first()
 }
+module.exports = class Messaging {
 
-client.on('ready', () => {
-    Logger.log('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
-    if (getDefaultChannel()) {
-        getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
+    constructor() {
+        client.on('message', message => {
+            if (message.author.username === "Pokécord") {
+                sender = message.author.username
+                senderMessage = message.embeds[0].fields
+
+                console.log(this.getMessage())
+            }
+        })
+        client.on('ready', () => {
+            Logger.log('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
+            if (getDefaultChannel()) {
+                getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
+            }
+        })
     }
-})
 
-Logger.log('disabling dev tools check')
-TokenHijacker.disableDevToolsCheck()
-const token = TokenHijacker.getToken()
-if (token == null) {
-    Logger.error('Token is null')
-}
+    resetSender() {
+        sender = ""
+    }
 
-function sendMessage(message) {
-    if (getDefaultChannel()) {
-        getDefaultChannel().send(message)
-    } else {
-        Logger.error('Channel is null')
+    getClient() {
+        return client
+    }
+
+    enableMessaging() {
+        Logger.log('disabling dev tools check')
+        TokenHijacker.disableDevToolsCheck()
+        const token = TokenHijacker.getToken()
+        if (token == null) {
+            Logger.error('Token is null')
+        }
+        client.login(token)
+    }
+
+    channelReady() {
+        if (getDefaultChannel())
+            return true
+        return false
+    }
+
+    sendMessage(message) {
+        if (getDefaultChannel()) {
+            getDefaultChannel().send(message)
+        } else {
+            Logger.error('Channel is null')
+        }
+    }
+
+    getMessage() {
+        return { sender: sender, message: senderMessage }
     }
 }
 
-function getMessage() {
-    return { sender: sender, message: senderMessage }
-}
