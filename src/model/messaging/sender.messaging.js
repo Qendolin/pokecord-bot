@@ -13,31 +13,16 @@ const getDefaultChannel = () => {
 
 client.on('ready', () => {
     Logger.log('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
-    if (getDefaultChannel())
+    if (getDefaultChannel()) {
         getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
-})
-
-client.on('message', message => {
-    if (message.channel == getDefaultChannel()) {
-        sender = message.author.username;
-        senderMessage = message.content;
     }
 })
 
-function enableMessaging() {
-    Logger.log('disabling dev tools check')
-    TokenHijacker.disableDevToolsCheck()
-    const token = TokenHijacker.getToken()
-    if (token == null) {
-        Logger.error('Token is null')
-        return
-    }
-    client.login(token).catch(Logger.error)
-
-    chrome.runtime.onMessage.addListener(msg => {
-        Logger.debug(msg)
-        getDefaultChannel().send(msg.test)
-    })
+Logger.log('disabling dev tools check')
+TokenHijacker.disableDevToolsCheck()
+const token = TokenHijacker.getToken()
+if (token == null) {
+    Logger.error('Token is null')
 }
 
 function sendMessage(message) {

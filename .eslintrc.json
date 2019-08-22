@@ -1,0 +1,39 @@
+{
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true,
+		"webextensions": true
+	},
+	"extends": "eslint:recommended",
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": ["warn", "tab"],
+		"dot-location": ["warn", "object"],
+		"dot-notation": "warn",
+		"no-invalid-this": "warn",
+		"no-whitespace-before-property": "warn",
+		"quotes": ["warn", "single"],
+		"semi": ["warn", "never"],
+		"no-confusing-arrow": "warn",
+		"no-var": "warn",
+		"arrow-spacing": "warn",
+		"no-debugger": "off",
+		"curly": "warn",
+		"yoda": "warn",
+		"no-shadow": "warn",
+		"brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
+		"camelcase": "warn",
+		"key-spacing": "warn",
+		"prefer-arrow-callback": "warn",
+		"prefer-spread": "warn",
+		"prefer-template": "warn"
+	}
+}
