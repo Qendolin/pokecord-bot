@@ -17,7 +17,7 @@ client.on('ready', () => {
         getDefaultChannel().send('Pokecord Bot v.α by Qendolin and LetsCyb successfully initialized')
 })
 
-messaging.client.on('message', message => {
+client.on('message', message => {
     if (message.channel == getDefaultChannel()) {
         sender = message.author.username;
         senderMessage = message.content;
