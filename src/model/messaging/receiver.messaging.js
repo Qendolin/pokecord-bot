@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const { Client, Message } = require('discord.js')
 
-const { Enum, Regex } = require('../utils')
+const { Enum } = require('../utils')
 
 /**
  * @callback MessageMapper.Identify
@@ -135,7 +135,7 @@ Receiver.MessageMappers = {
 		 */
 		identify: (message) => {
 			const titleRegex = /^Congratulations .*!$/
-			const descrRegex = new RegExp(`^Your ${Regex.PokemonName} is now level \\d{1,3}!$`)
+			const descrRegex = new RegExp(`^Your [\u0000-\uFFFF]+ is now level \\d{1,3}!$`)
 			try {
 				return (
 					message.author.username === 'Pokécord' &&
@@ -151,7 +151,7 @@ Receiver.MessageMappers = {
 		 */
 		map: (message) => {
 			const titleRegex = /^Congratulations (.*)!$/
-			const descrRegex = new RegExp(`^Your (${Regex.PokemonName}) is now level (\\d{1,3})!$`)
+			const descrRegex = new RegExp(`^Your ([\u0000-\uFFFF]+) is now level (\\d{1,3})!$`)
 			const username = titleRegex.exec(message.embeds[0].title)[1]
 			const [, pokemon, level] = descrRegex.exec(message.embeds[0].description)
 			return {
@@ -161,7 +161,9 @@ Receiver.MessageMappers = {
 			}
 		}
 	},
-	[MessageType.Encounter]: {}
+	[MessageType.Encounter]: {
+		//TODO
+	}
 }
 
 module.exports = { Receiver, MessageType }
