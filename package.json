@@ -18,9 +18,11 @@
 	},
 	"homepage": "https://github.com/Qendolin/pokecord-bot#readme",
 	"dependencies": {
+		"bookmarkleter": "^1.0.1",
 		"browserify": "^16.5.0",
 		"cost-of-modules": "^1.0.1",
 		"discord.js": "^11.5.1",
+		"md5": "^2.2.1",
 		"uglifyjs-browser": "^3.0.0"
 	},
 	"devDependencies": {

@@ -4,4 +4,5 @@
  */
 
 require('discord.js')
-require('uglifyjs-browser')
+require('bookmarkleter')
+require('md5')

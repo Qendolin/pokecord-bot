@@ -1,6 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 const { Client, Message } = require('discord.js')
 const { Enum } = require('../utils')
+const md5 = require('md5')
+
+const PokecordId = 365975655608745985
 
 /**
  * @callback MessageMapper.Identify
@@ -11,7 +14,7 @@ const { Enum } = require('../utils')
 /**
  * @callback MessageMapper.Map
  * @param {Message} message
- * @returns {Object}
+ * @returns {any|Promise<any>}
  */
 
 /**
@@ -24,11 +27,11 @@ const { Enum } = require('../utils')
  * @readonly
  * @enum {string}
  */
-const MessageType = new Enum('LevelUp', 'Encounter')
+const MessageType = new Enum('LevelUp', 'Encounter', 'Any')
 
 /**
  * @callback Receiver.MessageCallback
- * @param {Object} mappedMessage
+ * @param {any|Promise<any>} mappedMessage
  * @param {Message} original
  * @returns {void}
  */
@@ -111,13 +114,11 @@ class Receiver {
 
 			const cbs = this._callbacks.filter((cb) => cb.type === type)
 			if (cbs.length == 0) {
-				break
+				continue
 			}
 
 			const mappedMessage = mapper.map(message)
 			cbs.forEach((cb) => cb.handler(mappedMessage, message))
-
-			break
 		}
 	}
 }
@@ -129,30 +130,24 @@ class Receiver {
  */
 Receiver.MessageMappers = {
 	[MessageType.LevelUp]: {
-		/**
-		 * @param {Message} message
-		 */
-		identify: (message) => {
+		identify: (msg) => {
 			const titleRegex = /^Congratulations .*!$/
 			const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
 			try {
 				return (
-					message.author.username === 'Pokécord' &&
-					message.embeds[0].title.match(titleRegex) &&
-					message.embeds[0].description.match(descrRegex)
+					msg.author.id === PokecordId &&
+					msg.embeds[0].title.match(titleRegex) &&
+					msg.embeds[0].description.match(descrRegex)
 				)
 			} catch (_) {
 				return false
 			}
 		},
-		/**
-		 * @param {Message} message
-		 */
-		map: (message) => {
+		map: (msg) => {
 			const titleRegex = /^Congratulations (.*)!$/
 			const descrRegex = /^Your ([\u{0000}-\u{FFFF}]+) is now level (\d{1,3})!$/u
-			const username = titleRegex.exec(message.embeds[0].title)[1]
-			const [, pokemon, level] = descrRegex.exec(message.embeds[0].description)
+			const username = titleRegex.exec(msg.embeds[0].title)[1]
+			const [, pokemon, level] = descrRegex.exec(msg.embeds[0].description)
 			return {
 				pokemon,
 				level,
@@ -160,8 +155,26 @@ Receiver.MessageMappers = {
 			}
 		}
 	},
+	[MessageType.Any]: {
+		identify: (msg) => msg.author.id === PokecordId,
+		map: (msg) => msg
+	},
 	[MessageType.Encounter]: {
-		//TODO
+		identify: (msg) => {
+			try {
+				return (
+					msg.author.id === PokecordId && msg.embeds[0].title === '\u200c\u200cA wild pokémon has appeared!'
+				)
+			} catch (_) {
+				return false
+			}
+		},
+		map: (msg) => {
+			const imgUrl = msg.embeds[0].image.url
+			return fetch(imgUrl)
+				.then((res) => res.arrayBuffer())
+				.then((buf) => Promise.resolve(md5(buf)))
+		}
 	}
 }
 

@@ -16,7 +16,7 @@
 	},
 	"rules": {
 		"indent": ["warn", "tab"],
-		"dot-location": ["warn", "object"],
+		"dot-location": ["warn", "property"],
 		"dot-notation": "warn",
 		"no-invalid-this": "warn",
 		"no-whitespace-before-property": "warn",

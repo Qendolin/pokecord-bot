@@ -18,5 +18,13 @@
 
 	"browser_action": {
 		"default_title": "Hello World"
-	}
+	},
+
+	"permissions": [
+		"webRequest",
+		"https://cdn.discordapp.com/attachments/*",
+		"https://pokeapi.co/api/v2/pokemon/",
+		"https://bulbapedia.bulbagarden.net/wiki/*",
+		"https://cdn.bulbagarden.net/upload/thumb/*"
+	]
 }
