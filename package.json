@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "build.bat",
-		"gen-doc": "rd /S /Q \"doc\" && jsdoc -p -P ./package.json -r ./src/ -d ./doc/"
+		"gen-doc": "mkdir \"doc\" && rd /S /Q \"doc\" && jsdoc -p -P ./package.json -r ./src/ -d ./doc/"
 	},
 	"repository": {
 		"type": "git",
