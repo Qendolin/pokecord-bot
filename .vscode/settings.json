@@ -9,5 +9,6 @@
 				"match": "(?:\\.js$)|(?:manifest\\.json)"
 			}
 		]
-	}
+	},
+	"eslint.enable": true
 }

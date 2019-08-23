@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 const { Client, Message } = require('discord.js')
-
 const { Enum } = require('../utils')
 
 /**
@@ -65,7 +64,7 @@ class Receiver {
 	 * @param {MessageType} type
 	 * @param {Receiver.MessageCallback} handler
 	 */
-	onMessage(type, handler) {
+	on(type, handler) {
 		if (this._callbacks.some((cb) => cb.type === type && cb.handler === handler)) {
 			return
 		}
@@ -74,6 +73,26 @@ class Receiver {
 			type,
 			handler
 		})
+	}
+
+	/**
+	 * Start listening for messages
+	 */
+	start() {
+		if (this._started) {
+			return
+		}
+		this.client.on('message', this._onMessage)
+	}
+
+	/**
+	 * Stop listening for messages
+	 */
+	stop() {
+		if (!this._started) {
+			return
+		}
+		this.client.removeListener('message', this._onMessage)
 	}
 
 	/**
@@ -101,26 +120,6 @@ class Receiver {
 			break
 		}
 	}
-
-	/**
-	 * Start listening for messages
-	 */
-	start() {
-		if (this._started) {
-			return
-		}
-		this.client.on('message', this._onMessage)
-	}
-
-	/**
-	 * Stop listening for messages
-	 */
-	stop() {
-		if (!this._started) {
-			return
-		}
-		this.client.removeListener('message', this._onMessage)
-	}
 }
 
 /**
@@ -135,7 +134,7 @@ Receiver.MessageMappers = {
 		 */
 		identify: (message) => {
 			const titleRegex = /^Congratulations .*!$/
-			const descrRegex = new RegExp(`^Your [\u0000-\uFFFF]+ is now level \\d{1,3}!$`)
+			const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
 			try {
 				return (
 					message.author.username === 'Pokécord' &&
@@ -151,7 +150,7 @@ Receiver.MessageMappers = {
 		 */
 		map: (message) => {
 			const titleRegex = /^Congratulations (.*)!$/
-			const descrRegex = new RegExp(`^Your ([\u0000-\uFFFF]+) is now level (\\d{1,3})!$`)
+			const descrRegex = /^Your ([\u{0000}-\u{FFFF}]+) is now level (\d{1,3})!$/u
 			const username = titleRegex.exec(message.embeds[0].title)[1]
 			const [, pokemon, level] = descrRegex.exec(message.embeds[0].description)
 			return {
