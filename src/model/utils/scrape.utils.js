@@ -1,5 +1,6 @@
-const md5 = require('md5')
+const PokemonComparer = require('../autocatch/compare.autocatch')
 
+//TODO: relocate all of this
 async function download(pId, pName) {
 	//Capitalize
 	pName = pName.charAt(0).toUpperCase() + pName.slice(1)
@@ -27,9 +28,7 @@ async function download(pId, pName) {
 	const img = doc.querySelector(`#file > a > img`)
 	const imgSrc = `https:${img.getAttribute('src')}`
 
-	return fetch(imgSrc)
-		.then((res) => res.text())
-		.then((txt) => Promise.resolve(md5(txt)))
+	return PokemonComparer.hashFromUrl(imgSrc)
 }
 
 module.exports = async function scrape() {

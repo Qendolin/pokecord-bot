@@ -20,9 +20,11 @@
 	"dependencies": {
 		"bookmarkleter": "^1.0.1",
 		"browserify": "^16.5.0",
+		"browserify-shim": "^3.8.14",
 		"cost-of-modules": "^1.0.1",
 		"discord.js": "^11.5.1",
-		"md5": "^2.2.1",
+		"hamming-distance": "^1.0.0",
+		"jimp": "^0.6.4",
 		"uglifyjs-browser": "^3.0.0"
 	},
 	"devDependencies": {

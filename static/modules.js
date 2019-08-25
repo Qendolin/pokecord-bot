@@ -5,4 +5,3 @@
 
 require('discord.js')
 require('bookmarkleter')
-require('md5')
