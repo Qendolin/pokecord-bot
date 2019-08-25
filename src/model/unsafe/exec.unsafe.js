@@ -1,5 +1,4 @@
-var uglify = require('uglifyjs-browser')
-const Logger = new (require('../logging/logger.logging'))()
+const bookmarkleter = require('bookmarkleter')
 
 module.exports = {
 	/**
@@ -7,20 +6,17 @@ module.exports = {
 	 * @param {function} func function to execute in the top (page's) browsing context / frame
 	 * @throws {Error} If {func} cannot be serialized
 	 */
-	execInPageContext: function (func) {
+	execInPageContext: function(func) {
+		const code = func.toString()
 		//if firefox
 		if (typeof window.wrappedJSObject !== 'undefined') {
-			window.eval(`(${func.toString()})()`)
+			window.eval(`(${code})()`)
 		} else {
-			const result = uglify.minify(func.toString())
-			if (result.error) {
-				try {
-					throw result.error
-				} catch (error) {
-					Logger.error(error)
-				}
-			}
-			location.href = `javascript: (() => {${result.code}})()`
+			const result = bookmarkleter(`(${code})()`, {
+				urlencode: false,
+				minify: true
+			})
+			location.href = result
 		}
 	}
 }

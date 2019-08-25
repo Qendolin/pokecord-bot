@@ -1,4 +1,4 @@
-module.exports = class Logger {
+class Logger {
 	constructor(tag = '[PCB]') {
 		this.tag = tag
 	}
@@ -27,3 +27,5 @@ module.exports = class Logger {
 		console.trace.call(console, this.tag, ...arguments)
 	}
 }
+
+module.exports = new Logger()

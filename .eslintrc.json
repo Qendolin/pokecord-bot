@@ -20,7 +20,7 @@
 		"dot-notation": "warn",
 		"no-invalid-this": "warn",
 		"no-whitespace-before-property": "warn",
-		"quotes": ["warn", "single"],
+		"quotes": ["warn", "single", { "allowTemplateLiterals": true }],
 		"semi": ["warn", "never"],
 		"no-confusing-arrow": "warn",
 		"no-var": "warn",
