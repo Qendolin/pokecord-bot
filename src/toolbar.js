@@ -1,4 +1,4 @@
-const { Scrape } = require('./model/utils')
+const { Scrape } = require('./model/autocatch/scrape/scraper.scrape')
 
 chrome.browserAction.onClicked.addListener(async () => {
 	const data = await Scrape()

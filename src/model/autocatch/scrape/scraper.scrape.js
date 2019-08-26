@@ -1,4 +1,4 @@
-const PokemonComparer = require('../autocatch/compare.autocatch')
+const PokemonComparer = require('../compare.autocatch')
 
 //TODO: relocate all of this
 async function download(pId, pName) {

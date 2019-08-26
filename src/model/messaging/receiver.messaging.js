@@ -1,9 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const { Client, Message } = require('discord.js')
-const { Enum } = require('../utils')
+const { Enum, Const } = require('../utils')
 const Logger = require('../logging/logger.logging')
-
-const PokecordId = '365975655608745985'
 
 /**
  * @callback MessageMapper.Identify
@@ -136,7 +134,7 @@ Receiver.MessageMappers = new Proxy(
 				const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
 				try {
 					return (
-						msg.author.id == PokecordId &&
+						msg.author.id == Const.PokecordId &&
 						msg.embeds[0].title.match(titleRegex) &&
 						msg.embeds[0].description.match(descrRegex)
 					)
@@ -157,7 +155,7 @@ Receiver.MessageMappers = new Proxy(
 			}
 		},
 		[MessageType.Any]: {
-			identify: (msg) => msg.author.id == PokecordId,
+			identify: (msg) => msg.author.id == Const.PokecordId,
 			map: (msg) => msg
 		}
 	},

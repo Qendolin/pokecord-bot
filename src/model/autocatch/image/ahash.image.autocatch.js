@@ -1,5 +1,6 @@
 const CanvasTransformer = require('./process.image.autocatch')
 const Logger = require('../../logging/logger.logging')
+const { Convert } = require('../../utils')
 
 async function aHash(data, options = {}) {
 	const { width = 8, height = 8, radix = 16 } = options
@@ -20,8 +21,7 @@ async function aHash(data, options = {}) {
 		hash += val > average ? '1' : '0'
 	}
 
-	hash = parseInt(hash, 2)
-	hash = hash.toString(radix)
+	hash = Convert.radix(hash, 2, radix)
 	Logger.debug(
 		`Computed hash. Total: ${total}, Average: ${average}, Hash: ${hash}, Options: ${JSON.stringify({
 			width,

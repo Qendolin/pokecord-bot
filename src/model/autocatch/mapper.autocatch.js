@@ -28,7 +28,7 @@ async function init(options = {}) {
 			return PokemonComparer.hashFromUrl(imgUrl).then((hash) =>
 				Promise.resolve({
 					...comparer.bestMatch(hash),
-					hash: hash
+					unknownHash: hash
 				})
 			)
 		}

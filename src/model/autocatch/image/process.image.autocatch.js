@@ -1,7 +1,7 @@
 //TODO: Rename
 class CanvasTransformer {
 	/**
-	 * @param {Array|ArrayBuffer|Buffer|Blob} src buffer
+	 * @param {string|Array|ArrayBuffer|Buffer|Blob} src url or buffer
 	 * @returns {Promise<CanvasTransformer>}
 	 */
 	constructor(src) {
@@ -50,21 +50,22 @@ class CanvasTransformer {
 		if (src instanceof Blob) {
 			fromObjectUrl = true
 			this._img.src = URL.createObjectURL(src)
+		} else if (typeof src === 'string') {
+			this._img.src = src
 		} else {
 			throw new Error(`Unsupported type for 'src'`)
 		}
 
-		/* TODO:  else if (typeof src === 'string') {
-			this._img.src = src
-		} */
-
+		/**
+		 * The canvas index from which
+		 */
 		this._activeCanvas = 0
 
 		return promise
 	}
 
 	resize(width, height) {
-		const { read, write } = this._swap()
+		const { read, write } = this._swap(width, height)
 		write.canvas.width = width
 		write.canvas.height = height
 		write.ctx.drawImage(read.canvas, 0, 0, read.canvas.width, read.canvas.height, 0, 0, width, height)
@@ -74,6 +75,15 @@ class CanvasTransformer {
 
 	filter(name, ...args) {
 		const { write } = this._swap()
+
+		switch (name) {
+			case 'grayscale':
+			case 'invert':
+			case 'sepia':
+				args[0] = args[0] || '100%'
+				break
+		}
+
 		write.ctx.filter = `${name}(${args.join(', ')})`
 
 		return this
@@ -94,7 +104,11 @@ class CanvasTransformer {
 		return read.ctx.getImageData(0, 0, read.canvas.width, read.canvas.height)
 	}
 
-	_swap() {
+	/**
+	 * @param {?number} width Width of next active canvas
+	 * @param {?number} height Height of next active canvas
+	 */
+	_swap(width = null, height = null) {
 		/**
 		 * @type {HTMLCanvasElement}
 		 */
@@ -113,21 +127,25 @@ class CanvasTransformer {
 		 */
 		const inactiveCtx = this[`_ctx${+!this._activeCanvas + 1}`]
 
-		inactive.width = active.width
-		inactive.height = active.height
 		inactiveCtx.drawImage(active, 0, 0)
+		if (width) {
+			active.width = width
+		}
+		if (height) {
+			active.height = height
+		}
 
 		this._activeCanvas = +!this._activeCanvas
 
-		activeCtx.restore()
-		inactiveCtx.save()
+		activeCtx.save()
+		inactiveCtx.restore()
 
 		return {
-			write: {
+			read: {
 				ctx: inactiveCtx,
 				canvas: inactive
 			},
-			read: {
+			write: {
 				ctx: activeCtx,
 				canvas: active
 			}

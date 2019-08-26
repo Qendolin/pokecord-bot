@@ -15,7 +15,13 @@
 		"sourceType": "module"
 	},
 	"rules": {
-		"indent": ["warn", "tab"],
+		"indent": [
+			"warn",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
 		"dot-location": ["warn", "property"],
 		"dot-notation": "warn",
 		"no-invalid-this": "warn",
@@ -24,6 +30,7 @@
 		"semi": ["warn", "never"],
 		"no-confusing-arrow": "warn",
 		"no-var": "warn",
+		"no-unused-vars": "warn",
 		"arrow-spacing": "warn",
 		"no-debugger": "off",
 		"curly": "warn",

@@ -8,11 +8,24 @@ console.log('Click Me!')
 TokenHijacker.disableDevToolsCheck()
 const token = TokenHijacker.getToken()
 
+let pokecordChannel
 const client = new Client()
 client.login(token)
-client.on('ready', () => console.log('Client Ready'))
+client.on('ready', () => {
+	console.log('Client Ready')
+	const pokecordChannels = client.channels.filter((channel) => channel.name == 'pokecord')
+	pokecordChannel = pokecordChannels
+		.filter((c) => c.type === 'text' && c.permissionsFor(client.user).has('SEND_MESSAGES'))
+		.first()
+	setInterval(() => {
+		pokecordChannel.send('karakai jouzu no takagi-san :100: :fire: :fire: :fire:')
+	}, 1200)
+})
 const receiver = new Receiver(client)
 
 receiver.start()
 receiver.on(MessageType.Any, (msg) => console.log(msg))
-receiver.on(MessageType.Encounter, async (data) => console.log(await data))
+receiver.on(MessageType.Encounter, async (data) => {
+	data = await data
+	pokecordChannel.send(`.catch ${data.name}`)
+})
