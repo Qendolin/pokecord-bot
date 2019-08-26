@@ -1,7 +1,9 @@
 const PokemonComparer = require('../compare.autocatch')
+const CanvasTransformer = require('../image/process.image.autocatch')
+const { Const } = require('../../utils')
 
 //TODO: relocate all of this
-async function download(pId, pName) {
+async function extractImgUrl(pId, pName) {
 	//Capitalize
 	pName = pName.charAt(0).toUpperCase() + pName.slice(1)
 	pId = `000${pId}`.slice(-3)
@@ -26,40 +28,76 @@ async function download(pId, pName) {
 
 	const doc = parser.parseFromString(html, 'text/html')
 	const img = doc.querySelector(`#file > a > img`)
-	const imgSrc = `https:${img.getAttribute('src')}`
-
-	return PokemonComparer.hashFromUrl(imgSrc)
+	return `https:${img.getAttribute('src')}`
 }
 
-module.exports = async function scrape() {
+async function calcHashes(data) {
 	return new Promise((resolve) => {
-		fetch('https://pokeapi.co/api/v2/pokemon/?limit=69420')
-			.then((res) => res.json())
-			.then(async (data) => {
-				const scapedData = {}
-				const results = data.results
-				const promises = []
-				for (let i = 0; i < results.length; i++) {
-					const elem = results[i]
-					if (!elem) {
-						continue
-					}
-					if (elem.name.indexOf('-mega') !== -1) {
-						continue
-					}
-					console.log('downloading ', elem.name)
-					const willReturn = download(i + 1, elem.name)
-					promises.push(willReturn)
-					willReturn.then((hash) => {
-						if (!hash) {
-							return
-						}
-						console.log(hash, elem.name)
-						scapedData[hash] = elem.name
-					})
+		const scapedData = {}
+		const promises = []
+		for (let i = 0; i < data.length; i++) {
+			const elem = data[i]
+			if (!elem) {
+				continue
+			}
+			if (elem.name.indexOf('-mega') !== -1) {
+				continue
+			}
+			console.log('downloading ', elem.name)
+			const willReturn = extractImgUrl(i + 1, elem.name).then(
+				(url) => url && PokemonComparer.hashFromUrl(url, Const.ImgHash)
+			)
+			promises.push(willReturn)
+			willReturn.then((hash) => {
+				if (!hash) {
+					return
 				}
-				await Promise.all(promises)
-				resolve(scapedData)
+				console.log(hash, elem.name)
+				scapedData[hash] = elem.name
 			})
+		}
+		resolve(Promise.all(promises).then(() => scapedData))
 	})
 }
+
+function getPokemon() {
+	return fetch('https://pokeapi.co/api/v2/pokemon/?limit=69420')
+		.then((res) => res.json())
+		.then((json) => json.results)
+}
+
+async function calcImgs(data) {
+	return new Promise((resolve) => {
+		const scapedData = {}
+		const promises = []
+		for (let i = 0; i < data.length; i++) {
+			const elem = data[i]
+			if (!elem) {
+				continue
+			}
+			if (elem.name.indexOf('-mega') !== -1) {
+				continue
+			}
+			console.log('downloading ', elem.name)
+			const willReturn = extractImgUrl(i + 1, elem.name)
+				.then((url) => fetch(url))
+				.then((res) => res.blob())
+				.then(async (blob) => {
+					const img = await new CanvasTransformer(blob)
+					img.filter('grayscale').resize(Const.AHashResolution, Const.AHashResolution)
+					return img.toDataUrl()
+				})
+			promises.push(willReturn)
+			willReturn.then((url) => {
+				if (!url) {
+					return
+				}
+				console.log(url, elem.name)
+				scapedData[elem.name] = url
+			})
+		}
+		resolve(Promise.all(promises).then(() => scapedData))
+	})
+}
+
+module.exports = { calcHashes, getPokemon, calcImgs }

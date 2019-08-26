@@ -65,10 +65,12 @@ class CanvasTransformer {
 	}
 
 	resize(width, height) {
-		const { read, write } = this._swap(width, height)
+		const { read, write } = this._swap()
 		write.canvas.width = width
 		write.canvas.height = height
 		write.ctx.drawImage(read.canvas, 0, 0, read.canvas.width, read.canvas.height, 0, 0, width, height)
+		read.canvas.height = height
+		read.canvas.width = width
 
 		return this
 	}
@@ -104,11 +106,7 @@ class CanvasTransformer {
 		return read.ctx.getImageData(0, 0, read.canvas.width, read.canvas.height)
 	}
 
-	/**
-	 * @param {?number} width Width of next active canvas
-	 * @param {?number} height Height of next active canvas
-	 */
-	_swap(width = null, height = null) {
+	_swap() {
 		/**
 		 * @type {HTMLCanvasElement}
 		 */
@@ -128,12 +126,6 @@ class CanvasTransformer {
 		const inactiveCtx = this[`_ctx${+!this._activeCanvas + 1}`]
 
 		inactiveCtx.drawImage(active, 0, 0)
-		if (width) {
-			active.width = width
-		}
-		if (height) {
-			active.height = height
-		}
 
 		this._activeCanvas = +!this._activeCanvas
 

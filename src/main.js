@@ -27,5 +27,6 @@ receiver.start()
 receiver.on(MessageType.Any, (msg) => console.log(msg))
 receiver.on(MessageType.Encounter, async (data) => {
 	data = await data
+	console.log(data)
 	pokecordChannel.send(`.catch ${data.name}`)
 })

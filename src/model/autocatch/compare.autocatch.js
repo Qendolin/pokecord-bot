@@ -1,6 +1,7 @@
 const aHash = require('./image/ahash.image.autocatch')
+const dHash = require('./image/dhash.image.autocatch')
 const Logger = require('../logging/logger.logging')
-const { Convert } = require('../utils')
+const { Convert, Const } = require('../utils')
 
 class PokemonComparer {
 	/**
@@ -48,10 +49,25 @@ class PokemonComparer {
  * @param {string} url Url to a PNG or JPEG
  * @returns {Promise<string>} A promise that resolves to the hash
  */
-PokemonComparer.hashFromUrl = (url) => {
+PokemonComparer.hashFromUrl = (url, algo) => {
 	return fetch(url)
 		.then((res) => res.blob())
-		.then((blob) => aHash(blob))
+		.then((blob) => {
+			switch (algo) {
+				case 'ahash':
+				case 'aHash':
+					return aHash(blob, {
+						width: Const.ImgHashResolution,
+						height: Const.ImgHashResolution
+					})
+				case 'dHash':
+				case 'dhash':
+					return dHash(blob, {
+						width: Const.ImgHashResolution + 1,
+						height: Const.ImgHashResolution
+					})
+			}
+		})
 }
 
 //TODO: Relocate this function

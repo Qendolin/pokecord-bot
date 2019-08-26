@@ -25,7 +25,7 @@ async function init(options = {}) {
 		},
 		map: (msg) => {
 			const imgUrl = msg.embeds[0].image.url
-			return PokemonComparer.hashFromUrl(imgUrl).then((hash) =>
+			return PokemonComparer.hashFromUrl(imgUrl, Const.ImgHash).then((hash) =>
 				Promise.resolve({
 					...comparer.bestMatch(hash),
 					unknownHash: hash

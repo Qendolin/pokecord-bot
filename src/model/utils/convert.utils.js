@@ -11,7 +11,7 @@ function radix(value, from, to, keepLeadingZeroes = true) {
 	}
 
 	const length = value.length
-	value = parseInt(value, from).toString(to)
+	value = parseBigInt(value, from).toString(to)
 
 	if (keepLeadingZeroes) {
 		if (from > to) {
@@ -26,4 +26,15 @@ function radix(value, from, to, keepLeadingZeroes = true) {
 	return value
 }
 
-module.exports = { radix }
+// eslint-disable-next-line no-shadow
+function parseBigInt(value, radix) {
+	const radixBI = BigInt(radix)
+	let result = BigInt(0)
+	for (let i = 0; i < value.length; i++) {
+		const digit = BigInt(parseInt(value[value.length - i - 1], radix))
+		result += digit * radixBI ** BigInt(i)
+	}
+	return result
+}
+
+module.exports = { radix, parseBigInt }
