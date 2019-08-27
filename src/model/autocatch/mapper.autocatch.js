@@ -33,6 +33,17 @@ async function init(options = {}) {
 			)
 		}
 	}
+
+	Receiver.MessageMappers.WrongGuess = {
+		identify: (msg) => {
+			try {
+				return msg.author.id == pokecordId && msg.content === 'This is the wrong pokémon!'
+			} catch (error) {
+				return false
+			}
+		},
+		map: () => {}
+	}
 }
 
 module.exports = {

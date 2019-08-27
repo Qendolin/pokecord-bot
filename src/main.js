@@ -23,10 +23,20 @@ client.on('ready', () => {
 })
 const receiver = new Receiver(client)
 
+let guesses = 0
+let wrong = 0
+
 receiver.start()
 receiver.on(MessageType.Any, (msg) => console.log(msg))
 receiver.on(MessageType.Encounter, async (data) => {
 	data = await data
 	console.log(data)
 	pokecordChannel.send(`.catch ${data.name}`)
+	guesses++
+	console.log(guesses, wrong)
+})
+
+receiver.on('WrongGuess', () => {
+	wrong++
+	console.log(guesses, wrong)
 })

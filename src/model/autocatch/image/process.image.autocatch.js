@@ -1,11 +1,15 @@
-//TODO: Rename
 class CanvasTransformer {
 	/**
-	 * @param {string|Array|ArrayBuffer|Buffer|Blob} src url or buffer
+	 * @param {string|Array|ArrayBuffer|Buffer|Blob|HTMLImageElement} src url or buffer
 	 * @returns {Promise<CanvasTransformer>}
 	 */
 	constructor(src) {
-		this._img = new Image()
+		if (src instanceof HTMLImageElement) {
+			this._img = src.cloneNode()
+		} else {
+			this._img = new Image()
+		}
+
 		if (Buffer.isBuffer(src)) {
 			src = [...src]
 		}
@@ -52,6 +56,10 @@ class CanvasTransformer {
 			this._img.src = URL.createObjectURL(src)
 		} else if (typeof src === 'string') {
 			this._img.src = src
+		} else if (src instanceof HTMLImageElement) {
+			if (this._img.complete) {
+				this._img.onload()
+			}
 		} else {
 			throw new Error(`Unsupported type for 'src'`)
 		}
@@ -64,8 +72,15 @@ class CanvasTransformer {
 		return promise
 	}
 
+	/**
+	 *
+	 * @param {number} width Can be negative
+	 * @param {number} height Can be negative
+	 */
 	resize(width, height) {
 		const { read, write } = this._swap()
+		width = this._absCoord(width, 0, read.canvas.width)
+		height = this._absCoord(height, 0, read.canvas.height)
 		write.canvas.width = width
 		write.canvas.height = height
 		write.ctx.drawImage(read.canvas, 0, 0, read.canvas.width, read.canvas.height, 0, 0, width, height)
@@ -91,9 +106,131 @@ class CanvasTransformer {
 		return this
 	}
 
+	/**
+	 * @typedef {string} colorMask
+	 * @descr An 8 digit string, each two digit can be any hex value or 'XX' if it should be ignored
+	 *
+	 * @typedef {Object} cropOptions
+	 * @prop {string} autoCropValue <colorMask> 'alpha', 'black', 'white'
+	 *
+	 * @param {number|string} width <number>, 'auto', 'keepAspect'. Can be negative
+	 * @param {number|string} height <number>, 'auto', 'keepAspect. Can be negative
+	 * @param {number|string} offsetX <number>, 'center'. Ignored if {width} is 'auto'. Can be negative
+	 * @param {number|string} offsetY <number>, 'center'. Ignored if {height} is 'auto'. Can be negative
+	 * @param {?cropOptions} options
+	 */
+	crop(width, height, offsetX, offsetY, options = {}) {
+		const { autoCropValue = 'alpha' } = options
+
+		const { read, write } = this._swap()
+
+		let cropCond
+		switch (autoCropValue) {
+			case 'alpha':
+				cropCond = ({ a }) => a === 0
+				break
+			case 'white':
+				cropCond = ({ r, g, b }) => r === 255 && g === 255 && b === 255
+				break
+			case 'black':
+				cropCond = ({ r, g, b }) => r === 0 && g === 0 && b === 0
+				break
+			default:
+				{
+					const isMatch = this._parseColorMask(autoCropValue)
+					cropCond = ({ r, g, b, a }) => isMatch(r, g, b, a)
+				}
+				break
+		}
+		const pixels = read.ctx.getImageData(0, 0, read.canvas.width, read.canvas.height).data
+
+		const findCoords = (dim1, dim2, dir1, dir2, cond) => {
+			for (let val1 = dir1 ? 0 : dim1 - 1; dir1 ? val1 < dim1 : val1 >= 0; val1 += dir1 ? 1 : -1) {
+				for (let val2 = dir2 ? 0 : dim2 - 1; dir2 ? val2 < dim2 : val2 >= 0; val2 += dir2 ? 1 : -1) {
+					if (cond(val1, val2)) {
+						return [val1, val2]
+					}
+				}
+			}
+			return [dir1 ? dim1 : 0, dir2 ? dim2 : 0]
+		}
+
+		let absWidth
+		let absOffsetX
+		if (typeof width === 'number') {
+			absWidth = this._absCoord(width, 0, read.canvas.width)
+		} else if (width === 'auto') {
+			const [minX] = findCoords(read.canvas.width, read.canvas.height, true, true, (x, y) => {
+				const i = (x + y * write.canvas.width) * 4
+				const [r, g, b, a] = pixels.slice(i, i + 4)
+				return !cropCond({ r, g, b, a })
+			})
+			const [maxX] = findCoords(read.canvas.width, read.canvas.height, false, true, (x, y) => {
+				const i = (x + y * write.canvas.width) * 4
+				const [r, g, b, a] = pixels.slice(i, i + 4)
+				return !cropCond({ r, g, b, a })
+			})
+			absWidth = maxX - minX + 1
+			absOffsetX = minX
+		}
+
+		let absHeight
+		let absOffsetY
+		if (typeof height === 'number') {
+			absHeight = this._absCoord(height, 0, read.canvas.height)
+		} else if (height === 'auto') {
+			const [minY] = findCoords(read.canvas.height, read.canvas.width, true, true, (y, x) => {
+				const i = (x + y * write.canvas.width) * 4
+				const [r, g, b, a] = pixels.slice(i, i + 4)
+				return !cropCond({ r, g, b, a })
+			})
+			const [maxY] = findCoords(read.canvas.height, read.canvas.width, false, true, (y, x) => {
+				const i = (x + y * write.canvas.width) * 4
+				const [r, g, b, a] = pixels.slice(i, i + 4)
+				return !cropCond({ r, g, b, a })
+			})
+			absHeight = maxY - minY + 1
+			absOffsetY = minY
+		}
+
+		const aspect = read.canvas.width / read.canvas.height
+		if (width === 'keepAspect') {
+			absWidth = absHeight * aspect
+		} else if (height === 'keepAspect') {
+			absHeight = absWidth / aspect
+		}
+
+		if (height !== 'auto') {
+			if (typeof offsetY === 'number') {
+				absOffsetY = this._absCoord(offsetY, absHeight, write.canvas.height)
+			} else if (offsetY === 'center') {
+				absOffsetY = (read.canvas.height - absHeight) / 2
+			}
+		}
+
+		if (width !== 'auto') {
+			if (typeof offsetX === 'number') {
+				absOffsetX = this._absCoord(offsetX, absWidth, write.canvas.width)
+			} else if (offsetX === 'center') {
+				absOffsetX = (read.canvas.width - absWidth) / 2
+			}
+		}
+
+		write.canvas.width = absWidth
+		write.canvas.height = absHeight
+		write.ctx.drawImage(read.canvas, absOffsetX, absOffsetY, absWidth, absHeight, 0, 0, absWidth, absHeight)
+		read.canvas.width = absWidth
+		read.canvas.height = absHeight
+	}
+
+	/**
+	 * @async
+	 */
 	toBlob() {
 		const { read } = this._swap()
-		return read.canvas.toBlob()
+		return new Promise((resolve) => {
+			read.canvas.toBlob(resolve)
+		})
 	}
 
 	toDataUrl() {
@@ -104,6 +241,31 @@ class CanvasTransformer {
 	toRaw() {
 		const { read } = this._swap()
 		return read.ctx.getImageData(0, 0, read.canvas.width, read.canvas.height)
+	}
+
+	/**
+	 *
+	 * @param {number} coord The coord (offset, dimension)
+	 * @param {*} part The Width of the offseted region
+	 * @param {*} max The Width of the containing region
+	 */
+	_absCoord(coord, part, max) {
+		if (coord < 0 || Object.is(coord, -0)) {
+			return max - part + coord
+		}
+		return coord
+	}
+
+	_parseColorMask(mask) {
+		const xR = mask.slice(0, 2) === 'XX'
+		const xG = mask.slice(0, 2) === 'XX'
+		const xB = mask.slice(0, 2) === 'XX'
+		const xA = mask.slice(0, 2) === 'XX'
+		const valR = parseInt(mask.slice(0, 2), 16)
+		const valG = parseInt(mask.slice(2, 4), 16)
+		const valB = parseInt(mask.slice(4, 6), 16)
+		const valA = parseInt(mask.slice(6, 8), 16)
+		return (r, g, b, a) => ((xR || r === valR) && (xG || g === valG)) || (xB || b === valB) || (xA || a === valA)
 	}
 
 	_swap() {

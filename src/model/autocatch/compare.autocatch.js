@@ -2,6 +2,7 @@ const aHash = require('./image/ahash.image.autocatch')
 const dHash = require('./image/dhash.image.autocatch')
 const Logger = require('../logging/logger.logging')
 const { Convert, Const } = require('../utils')
+const CanvasTransformer = require('./image/process.image.autocatch')
 
 class PokemonComparer {
 	/**
@@ -52,17 +53,20 @@ class PokemonComparer {
 PokemonComparer.hashFromUrl = (url, algo) => {
 	return fetch(url)
 		.then((res) => res.blob())
-		.then((blob) => {
+		.then(async (blob) => {
+			const cropped = await new CanvasTransformer(blob)
+			cropped.crop(-44, -44, 'center', 'center')
+			const croppedBlob = await cropped.toBlob()
 			switch (algo) {
 				case 'ahash':
 				case 'aHash':
-					return aHash(blob, {
+					return aHash(croppedBlob, {
 						width: Const.ImgHashResolution,
 						height: Const.ImgHashResolution
 					})
 				case 'dHash':
 				case 'dhash':
-					return dHash(blob, {
+					return dHash(croppedBlob, {
 						width: Const.ImgHashResolution + 1,
 						height: Const.ImgHashResolution
 					})
