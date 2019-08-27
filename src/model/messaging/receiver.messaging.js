@@ -27,7 +27,7 @@ const PokecordId = '365975655608745985'
  * @readonly
  * @enum {string}
  */
-const MessageType = new Enum('LevelUp', 'Encounter', 'Any')
+const MessageType = new Enum('LevelUp', 'Encounter', 'Any', 'Selected')
 
 /**
  * @callback Receiver.MessageCallback
@@ -130,32 +130,6 @@ class Receiver {
  */
 Receiver.MessageMappers = new Proxy(
 	{
-		[MessageType.LevelUp]: {
-			identify: (msg) => {
-				const titleRegex = /^Congratulations .*!$/
-				const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
-				try {
-					return (
-						msg.author.id == PokecordId &&
-						msg.embeds[0].title.match(titleRegex) &&
-						msg.embeds[0].description.match(descrRegex)
-					)
-				} catch (_) {
-					return false
-				}
-			},
-			map: (msg) => {
-				const titleRegex = /^Congratulations (.*)!$/
-				const descrRegex = /^Your ([\u{0000}-\u{FFFF}]+) is now level (\d{1,3})!$/u
-				const username = titleRegex.exec(msg.embeds[0].title)[1]
-				const [, pokemon, level] = descrRegex.exec(msg.embeds[0].description)
-				return {
-					pokemon,
-					level,
-					username
-				}
-			}
-		},
 		[MessageType.Any]: {
 			identify: (msg) => msg.author.id == PokecordId,
 			map: (msg) => msg

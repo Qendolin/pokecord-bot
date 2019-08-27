@@ -24,6 +24,7 @@
 		"semi": ["warn", "never"],
 		"no-confusing-arrow": "warn",
 		"no-var": "warn",
+		"no-unused-vars": "warn",
 		"arrow-spacing": "warn",
 		"no-debugger": "off",
 		"curly": "warn",
