@@ -1,6 +1,6 @@
 const unsafe = require('../unsafe/exec.unsafe')
 
-module.exports = class TokenHijacker {
+class TokenHijacker {
 	disableDevToolsCheck() {
 		unsafe.execInPageContext(() => {
 			delete window.outerHeight
@@ -31,3 +31,5 @@ module.exports = class TokenHijacker {
 		return JSON.parse(token)
 	}
 }
+
+module.exports = TokenHijacker

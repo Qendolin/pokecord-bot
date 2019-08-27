@@ -1,3 +1,6 @@
-chrome.browserAction.onClicked.addListener(tab => {
-	chrome.tabs.sendMessage(tab.id, { test: 'hello world' })
+const { Scrape } = require('./model/utils')
+
+chrome.browserAction.onClicked.addListener(async () => {
+	const data = await Scrape()
+	console.log(JSON.stringify(data, null, 2))
 })
