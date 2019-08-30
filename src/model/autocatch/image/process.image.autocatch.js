@@ -224,6 +224,25 @@ class CanvasTransformer {
 	}
 
 	/**
+	 *
+	 * @param {number} ratio
+	 * @param {string} mode 'add', 'subtract'
+	 * @param {string} fillColor
+	 */
+	aspect(ratio, mode, fillColor) {
+		const { read, write } = this._swap()
+
+		let newWidth
+		let newHeight
+
+		if (mode == 'add') {
+			newWidth = read.canvas.width * ratio
+			//TODO
+		} else if (mode == 'subtract') {
+		}
+	}
+
+	/**
 	 * @async
 	 */
 	toBlob() {

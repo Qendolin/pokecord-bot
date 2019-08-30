@@ -50,25 +50,30 @@ class PokemonComparer {
  * @param {string} url Url to a PNG or JPEG
  * @returns {Promise<string>} A promise that resolves to the hash
  */
-PokemonComparer.hashFromUrl = (url, algo) => {
+PokemonComparer.hashFromUrl = (url, algo, options) => {
 	return fetch(url)
 		.then((res) => res.blob())
 		.then(async (blob) => {
 			const cropped = await new CanvasTransformer(blob)
-			cropped.crop(-44, -44, 'center', 'center')
+			cropped.resize(256, 256)
+			cropped.crop('auto', 'auto')
+			cropped.aspect(16 / 9, 'fit', '#00000000')
 			const croppedBlob = await cropped.toBlob()
 			switch (algo) {
 				case 'ahash':
 				case 'aHash':
 					return aHash(croppedBlob, {
-						width: Const.ImgHashResolution,
-						height: Const.ImgHashResolution
+						width: Const.ImgHash.Resolution,
+						height: Const.ImgHash.Resolution,
+						...options
 					})
 				case 'dHash':
 				case 'dhash':
 					return dHash(croppedBlob, {
-						width: Const.ImgHashResolution + 1,
-						height: Const.ImgHashResolution
+						width: Const.ImgHash.Resolution + 1,
+						height: Const.ImgHash.Resolution + 1,
+						direction: Const.ImgHash.Options.direction,
+						...options
 					})
 			}
 		})

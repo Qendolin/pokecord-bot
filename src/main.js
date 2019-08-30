@@ -1,7 +1,12 @@
-const { Receiver, MessageType } = require('./model/messaging/receiver.messaging')
+const { Receiver } = require('./model/messaging/receiver.messaging')
+const { AnyMapper } = require('./model/messaging/mapper.messaging').init()
 const { Client } = require('discord.js')
 const TokenHijacker = new (require('./model/hijack/token.hijack'))()
-require('./model/autocatch/mapper.autocatch').init()
+const { EncounterMapper, WrongGuessMapper } = require('./model/autocatch/mapper.autocatch').init({
+	debug: true
+})
+
+window.Debug = require('./model/debug')
 
 console.log('Click Me!')
 
@@ -21,14 +26,14 @@ client.on('ready', () => {
 		pokecordChannel.send('karakai jouzu no takagi-san :100: :fire: :fire: :fire:')
 	}, 1200)
 })
-const receiver = new Receiver(client)
+const receiver = new Receiver(client, EncounterMapper, WrongGuessMapper, AnyMapper)
 
 let guesses = 0
 let wrong = 0
 
 receiver.start()
-receiver.on(MessageType.Any, (msg) => console.log(msg))
-receiver.on(MessageType.Encounter, async (data) => {
+receiver.on(AnyMapper.type, (msg) => console.log(msg))
+receiver.on(EncounterMapper.type, async (data) => {
 	data = await data
 	console.log(data)
 	pokecordChannel.send(`.catch ${data.name}`)

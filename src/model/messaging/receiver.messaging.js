@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const { Client, Message } = require('discord.js')
-const { Enum, Const } = require('../utils')
-const Logger = require('../logging/logger.logging')
+const { EventEmitter } = require('events')
 
 /**
  * @callback MessageMapper.Identify
@@ -17,15 +16,10 @@ const Logger = require('../logging/logger.logging')
 
 /**
  * @typedef MessageMapper
+ * @prop {string} type
  * @prop {MessageMapper.Identify} identify
  * @prop {MessageMapper.Map} map
  */
-
-/**
- * @readonly
- * @enum {string}
- */
-const MessageType = new Enum('LevelUp', 'Encounter', 'Any')
 
 /**
  * @callback Receiver.MessageCallback
@@ -34,11 +28,12 @@ const MessageType = new Enum('LevelUp', 'Encounter', 'Any')
  * @returns {void}
  */
 
-class Receiver {
+class Receiver extends EventEmitter {
 	/**
 	 * @param {!Client} client
 	 */
-	constructor(client) {
+	constructor(client, ...mappers) {
+		super()
 		/**
 		 * @public
 		 * @type {!Client}
@@ -59,20 +54,10 @@ class Receiver {
 		this._started = false
 
 		this._onMessage = this._onMessage.bind(this)
-	}
 
-	/**
-	 * @param {MessageType} type
-	 * @param {Receiver.MessageCallback} handler
-	 */
-	on(type, handler) {
-		if (this._callbacks.some((cb) => cb.type === type && cb.handler === handler)) {
-			return
-		}
-
-		this._callbacks.push({
-			type,
-			handler
+		this.mappers = []
+		mappers.forEach((mapper) => {
+			this.mappers[mapper.type] = mapper
 		})
 	}
 
@@ -101,70 +86,23 @@ class Receiver {
 	 * @param {Message} message
 	 */
 	_onMessage(message) {
-		for (const type in Receiver.MessageMappers) {
+		for (const type in this.mappers) {
 			/**
 			 * @type {MessageMapper}
 			 */
-			const mapper = Receiver.MessageMappers[type]
+			const mapper = this.mappers[type]
 			if (!mapper.identify(message)) {
 				continue
 			}
 
-			const cbs = this._callbacks.filter((cb) => cb.type === type)
-			if (cbs.length == 0) {
+			if (this.listenerCount(type) == 0) {
 				continue
 			}
 
 			const mappedMessage = mapper.map(message)
-			cbs.forEach((cb) => cb.handler(mappedMessage, message))
+			this.emit(type, mappedMessage, message)
 		}
 	}
 }
 
-/**
- * @static
- * @memberof Receiver
- * @type {Object.<MessageType, MessageMapper>}
- */
-Receiver.MessageMappers = new Proxy(
-	{
-		[MessageType.LevelUp]: {
-			identify: (msg) => {
-				const titleRegex = /^Congratulations .*!$/
-				const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
-				try {
-					return (
-						msg.author.id == Const.PokecordId &&
-						msg.embeds[0].title.match(titleRegex) &&
-						msg.embeds[0].description.match(descrRegex)
-					)
-				} catch (_) {
-					return false
-				}
-			},
-			map: (msg) => {
-				const titleRegex = /^Congratulations (.*)!$/
-				const descrRegex = /^Your ([\u{0000}-\u{FFFF}]+) is now level (\d{1,3})!$/u
-				const username = titleRegex.exec(msg.embeds[0].title)[1]
-				const [, pokemon, level] = descrRegex.exec(msg.embeds[0].description)
-				return {
-					pokemon,
-					level,
-					username
-				}
-			}
-		},
-		[MessageType.Any]: {
-			identify: (msg) => msg.author.id == Const.PokecordId,
-			map: (msg) => msg
-		}
-	},
-	{
-		set: (target, prop, value) => {
-			target[prop] = value
-			Logger.debug(`Registered MessageMapper for type '${prop}'`)
-		}
-	}
-)
-
-module.exports = { Receiver, MessageType }
+module.exports = { Receiver }

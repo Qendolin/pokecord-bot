@@ -3,7 +3,7 @@ const Logger = require('../../logging/logger.logging')
 const { Convert } = require('../../utils')
 
 async function aHash(data, options = {}) {
-	const { width = 8, height = 8, radix = 16 } = options
+	const { width = 8, height = 8, radix = 16, debug = false } = options
 	const img = await new CanvasTransformer(data)
 	img.filter('grayscale').resize(width, height)
 	const pixels = img.toRaw().data
@@ -29,7 +29,15 @@ async function aHash(data, options = {}) {
 			radix
 		})}`
 	)
-	return hash
+	const result = {
+		hash
+	}
+	if (debug) {
+		result.debug = {
+			image: img.toDataUrl()
+		}
+	}
+	return result
 }
 
 module.exports = aHash

@@ -1,5 +1,10 @@
 module.exports = {
 	PokecordId: '365975655608745985',
-	ImgHashResolution: 12,
-	ImgHash: 'dHash'
+	ImgHash: {
+		Resolution: 12,
+		Method: 'dHash',
+		Options: {
+			direction: 'both'
+		}
+	}
 }

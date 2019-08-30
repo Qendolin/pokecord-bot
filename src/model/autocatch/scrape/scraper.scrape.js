@@ -10,7 +10,11 @@ async function extractImgUrl(pId, pName) {
 
 	const parser = new DOMParser()
 
-	const html = await fetch(`https://bulbapedia.bulbagarden.net/wiki/File:${pId}${pName}.png`)
+	const html = await fetch(`https://bulbapedia.bulbagarden.net/wiki/File:${pId}${pName}.png`, {
+		headers: {
+			'Content-Type': 'text/html'
+		}
+	})
 		.then((res) => {
 			if (!res.ok) {
 				return
@@ -44,9 +48,9 @@ async function calcHashes(data) {
 				continue
 			}
 			console.log('downloading ', elem.name)
-			const willReturn = extractImgUrl(i + 1, elem.name).then(
-				(url) => url && PokemonComparer.hashFromUrl(url, Const.ImgHash)
-			)
+			const willReturn = extractImgUrl(i + 1, elem.name)
+				.then((url) => url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method))
+				.then((res) => res && res.hash)
 			promises.push(willReturn)
 			willReturn.then((hash) => {
 				if (!hash) {
@@ -80,11 +84,14 @@ async function calcImgs(data) {
 			}
 			console.log('downloading ', elem.name)
 			const willReturn = extractImgUrl(i + 1, elem.name)
-				.then((url) => fetch(url))
-				.then((res) => res.blob())
+				.then((url) => url && fetch(url))
+				.then((res) => res && res.blob())
 				.then(async (blob) => {
+					if (!blob) {
+						return
+					}
 					const img = await new CanvasTransformer(blob)
-					img.filter('grayscale').resize(Const.AHashResolution, Const.AHashResolution)
+					img.filter('grayscale').resize(Const.ImgHash.Resolution + 1, Const.ImgHash.Resolution + 1)
 					return img.toDataUrl()
 				})
 			promises.push(willReturn)
@@ -100,4 +107,4 @@ async function calcImgs(data) {
 	})
 }
 
-module.exports = { calcHashes, getPokemon, calcImgs }
+module.exports = { calcHashes, getPokemon, calcImgs, extractImgUrl }
