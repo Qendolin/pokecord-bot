@@ -2,7 +2,7 @@ module.exports = class Sender {
 	constructor(client) {
 		this.client = client
 		this._toBeSent = []
-		setInterval(this._sendOne, 1100)
+		setInterval(this._sendOne.bind(this), 1100)
 	}
 
 	setChannel(channelName) {
