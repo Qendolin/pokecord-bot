@@ -1,3 +1,4 @@
+/*
 const { Receiver } = require('./model/messaging/receiver.messaging')
 const { AnyMapper } = require('./model/messaging/mapper.messaging').init()
 const { Client } = require('discord.js')
@@ -7,12 +8,21 @@ const { EncounterMapper, WrongGuessMapper } = require('./model/autocatch/mapper.
 })
 
 window.Debug = require('./model/debug')
+*/
+const TokenHijacker = new (require('../src/model/hijack/token.hijack'))()
+const { Client } = require('discord.js')
+const client = new Client()
+const sender = new (require('./model/messaging/sender.messaging'))(client)
+const autolvling = new (require('./model/auto-leveling/auto-leveling'))(sender, client)
+require('./model/auto-leveling/mapper.auto-leveling').init()
+
 
 console.log('Click Me!')
 
 TokenHijacker.disableDevToolsCheck()
 const token = TokenHijacker.getToken()
 
+/*
 let pokecordChannel
 const client = new Client()
 client.login(token)
@@ -53,3 +63,16 @@ receiver.on('WrongGuess', () => {
 	window.wrongGuesses.push(lastGuess)
 	console.log(guesses, wrong)
 })
+*/
+client.login(token)
+client.on('ready', () => console.log('Client Ready'))
+
+function main() {
+	client.on('ready', () => {
+		console.log('LUUUUUUUUUUUUUL')
+		sender.setChannel('pokecord')
+		autolvling.start([495, 458])
+	})
+}
+
+main()
