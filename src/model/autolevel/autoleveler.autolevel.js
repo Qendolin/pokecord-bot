@@ -35,7 +35,7 @@ class AutoLeveler {
 			const newLevel = await this._level(pkmnIds[pkmnIdx]).catch(() => {})
 
 			if (newLevel == null) {
-				return
+				continue
 			}
 			if (newLevel == 100) {
 				pkmnIds.splice(pkmnIdx, 1)

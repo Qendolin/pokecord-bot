@@ -69,6 +69,7 @@ class Receiver extends EventEmitter {
 			return
 		}
 		this.client.on('message', this._onMessage)
+		this._started = true
 	}
 
 	/**
@@ -79,6 +80,7 @@ class Receiver extends EventEmitter {
 			return
 		}
 		this.client.removeListener('message', this._onMessage)
+		this._started = false
 	}
 
 	/**

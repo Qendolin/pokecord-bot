@@ -8,6 +8,7 @@ const { Client } = require('discord.js')
 const Sender = require('./model/messaging/sender.messaging')
 const { AutoLeveler } = require('./model/autolevel/autoleveler.autolevel')
 const { AutoCatcher } = require('./model/autocatch/autocatcher.autocatch')
+const { execInPageContext } = require('./model/unsafe/exec.unsafe')
 
 const client = new Client()
 const sender = new Sender(client)
@@ -33,8 +34,22 @@ client.on('ready', () => {
 	Logger.log('Client Ready')
 	sender.setChannel('pokecord')
 	Logger.log('In Chrome, select the "Pokecord Bot" frame in the top left of the console')
+	Logger.log('In Firefox use pcEval')
 	Logger.log('Use PCBot to access the bot')
 })
 
 receiver.start()
 receiver.on(AnyMapper.type, (msg) => console.log(msg))
+
+window.addEventListener('EvalInContentScript', (ev) => {
+	eval(ev.detail)
+})
+
+execInPageContext(() => {
+	window.pcEval = (code) => {
+		if (typeof code === 'function') {
+			code = `(${code.toString()})()`
+		}
+		window.dispatchEvent(new CustomEvent('EvalInContentScript', { detail: code }))
+	}
+})
