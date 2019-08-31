@@ -41,7 +41,7 @@ class AutoCatcher {
 
 	async _onEncounter(mapping) {
 		mapping = await mapping
-		this._sender.sendMessage(`.catch ${mapping.name}`)
+		this._sender.send(`.catch ${mapping.name}`)
 		this.statistics.guesses++
 		this._lastGuess = mapping
 	}

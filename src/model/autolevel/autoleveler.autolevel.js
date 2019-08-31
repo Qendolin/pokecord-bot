@@ -31,7 +31,7 @@ class AutoLeveler {
 		this._receiver.start()
 
 		while (pkmnIds.length > 0) {
-			this._sender.sendMessage(`.select ${pkmnIds[pkmnIdx]}`)
+			this._sender.send(`.select ${pkmnIds[pkmnIdx]}`)
 			const newLevel = await this._level(pkmnIds[pkmnIdx]).catch(() => {})
 
 			if (newLevel == null) {
@@ -80,7 +80,7 @@ class AutoLeveler {
 		}
 
 		this._interval = setInterval(() => {
-			this._sender.sendMessage(this._randomText())
+			this._sender.send(this._randomText())
 		}, 1000)
 
 		return new Promise((resolve) => {
