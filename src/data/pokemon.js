@@ -78,7 +78,7 @@ module.exports = [
 	{
 		'name': 'Rattata',
 		'id': 19,
-		'altName': 'Rattata-Alola'
+		'variation': 'Rattata-Alola'
 	},
 	{
 		'name': 'Raticate',
@@ -87,7 +87,7 @@ module.exports = [
 	{
 		'name': 'Raticate',
 		'id': 20,
-		'altName': 'Raticate-Alola'
+		'variation': 'Raticate-Alola'
 	},
 	{
 		'name': 'Spearow',
@@ -116,7 +116,7 @@ module.exports = [
 	{
 		'name': 'Raichu',
 		'id': 26,
-		'altName': 'Raichu-Alola'
+		'variation': 'Raichu-Alola'
 	},
 	{
 		'name': 'Sandshrew',
@@ -125,7 +125,7 @@ module.exports = [
 	{
 		'name': 'Sandshrew',
 		'id': 27,
-		'altName': 'Sandshrew-Alola'
+		'variation': 'Sandshrew-Alola'
 	},
 	{
 		'name': 'Sandslash',
@@ -134,7 +134,7 @@ module.exports = [
 	{
 		'name': 'Sandslash',
 		'id': 28,
-		'altName': 'Sandslash-Alola'
+		'variation': 'Sandslash-Alola'
 	},
 	{
 		'name': 'Nidoran',
@@ -175,7 +175,7 @@ module.exports = [
 	{
 		'name': 'Vulpix',
 		'id': 37,
-		'altName': 'Vulpix-Alola'
+		'variation': 'Vulpix-Alola'
 	},
 	{
 		'name': 'Ninetales',
@@ -184,7 +184,7 @@ module.exports = [
 	{
 		'name': 'Ninetales',
 		'id': 38,
-		'altName': 'Ninetales-Alola'
+		'variation': 'Ninetales-Alola'
 	},
 	{
 		'name': 'Jigglypuff',
@@ -237,7 +237,7 @@ module.exports = [
 	{
 		'name': 'Diglett',
 		'id': 50,
-		'altName': 'Diglett-Alola'
+		'variation': 'Diglett-Alola'
 	},
 	{
 		'name': 'Dugtrio',
@@ -246,7 +246,7 @@ module.exports = [
 	{
 		'name': 'Dugtrio',
 		'id': 51,
-		'altName': 'Dugtrio-Alola'
+		'variation': 'Dugtrio-Alola'
 	},
 	{
 		'name': 'Meowth',
@@ -255,7 +255,7 @@ module.exports = [
 	{
 		'name': 'Meowth',
 		'id': 52,
-		'altName': 'Meowth-Alola'
+		'variation': 'Meowth-Alola'
 	},
 	{
 		'name': 'Persian',
@@ -264,7 +264,7 @@ module.exports = [
 	{
 		'name': 'Persian',
 		'id': 53,
-		'altName': 'Persian-Alola'
+		'variation': 'Persian-Alola'
 	},
 	{
 		'name': 'Psyduck',
@@ -353,7 +353,7 @@ module.exports = [
 	{
 		'name': 'Geodude',
 		'id': 74,
-		'altName': 'Geodude-Alola'
+		'variation': 'Geodude-Alola'
 	},
 	{
 		'name': 'Graveler',
@@ -362,7 +362,7 @@ module.exports = [
 	{
 		'name': 'Graveler',
 		'id': 75,
-		'altName': 'Graveler-Alola'
+		'variation': 'Graveler-Alola'
 	},
 	{
 		'name': 'Golem',
@@ -371,7 +371,7 @@ module.exports = [
 	{
 		'name': 'Golem',
 		'id': 76,
-		'altName': 'Golem-Alola'
+		'variation': 'Golem-Alola'
 	},
 	{
 		'name': 'Ponyta',
@@ -424,7 +424,7 @@ module.exports = [
 	{
 		'name': 'Grimer',
 		'id': 88,
-		'altName': 'Grimer-Alola'
+		'variation': 'Grimer-Alola'
 	},
 	{
 		'name': 'Muk',
@@ -433,7 +433,7 @@ module.exports = [
 	{
 		'name': 'Muk',
 		'id': 89,
-		'altName': 'Muk-Alola'
+		'variation': 'Muk-Alola'
 	},
 	{
 		'name': 'Shellder',
@@ -494,7 +494,7 @@ module.exports = [
 	{
 		'name': 'Exeggutor',
 		'id': 103,
-		'altName': 'Exeggutor-Alola'
+		'variation': 'Exeggutor-Alola'
 	},
 	{
 		'name': 'Cubone',
@@ -507,7 +507,7 @@ module.exports = [
 	{
 		'name': 'Marowak',
 		'id': 105,
-		'altName': 'Marowak-Alola'
+		'variation': 'Marowak-Alola'
 	},
 	{
 		'name': 'Hitmonlee',
@@ -1496,17 +1496,17 @@ module.exports = [
 	{
 		'name': 'Castform',
 		'id': 351,
-		'altName': 'Castform-Sunny'
+		'variation': 'Castform-Sunny'
 	},
 	{
 		'name': 'Castform',
 		'id': 351,
-		'altName': 'Castform-Rainy'
+		'variation': 'Castform-Rainy'
 	},
 	{
 		'name': 'Castform',
 		'id': 351,
-		'altName': 'Castform-Snowy'
+		'variation': 'Castform-Snowy'
 	},
 	{
 		'name': 'Kecleon',
@@ -1635,7 +1635,7 @@ module.exports = [
 	{
 		'name': 'Kyogre',
 		'id': 382,
-		'altName': 'Kyogre-Primal'
+		'variation': 'Kyogre-Primal'
 	},
 	{
 		'name': 'Groudon',
@@ -1644,7 +1644,7 @@ module.exports = [
 	{
 		'name': 'Groudon',
 		'id': 383,
-		'altName': 'Groudon-Primal'
+		'variation': 'Groudon-Primal'
 	},
 	{
 		'name': 'Rayquaza',
@@ -1661,17 +1661,17 @@ module.exports = [
 	{
 		'name': 'Deoxys',
 		'id': 386,
-		'altName': 'Deoxys-Attack'
+		'variation': 'Deoxys-Attack'
 	},
 	{
 		'name': 'Deoxys',
 		'id': 386,
-		'altName': 'Deoxys-Defense'
+		'variation': 'Deoxys-Defense'
 	},
 	{
 		'name': 'Deoxys',
 		'id': 386,
-		'altName': 'Deoxys-Speed'
+		'variation': 'Deoxys-Speed'
 	},
 	{
 		'name': 'Turtwig',
@@ -1784,12 +1784,12 @@ module.exports = [
 	{
 		'name': 'Wormadam-Plant',
 		'id': 413,
-		'altName': 'Wormadam-Sandy'
+		'variation': 'Wormadam-Sandy'
 	},
 	{
 		'name': 'Wormadam-Plant',
 		'id': 413,
-		'altName': 'Wormadam-Trash'
+		'variation': 'Wormadam-Trash'
 	},
 	{
 		'name': 'Mothim',
@@ -2058,27 +2058,27 @@ module.exports = [
 	{
 		'name': 'Rotom',
 		'id': 479,
-		'altName': 'Rotom-Heat'
+		'variation': 'Rotom-Heat'
 	},
 	{
 		'name': 'Rotom',
 		'id': 479,
-		'altName': 'Rotom-Wash'
+		'variation': 'Rotom-Wash'
 	},
 	{
 		'name': 'Rotom',
 		'id': 479,
-		'altName': 'Rotom-Frost'
+		'variation': 'Rotom-Frost'
 	},
 	{
 		'name': 'Rotom',
 		'id': 479,
-		'altName': 'Rotom-Fan'
+		'variation': 'Rotom-Fan'
 	},
 	{
 		'name': 'Rotom',
 		'id': 479,
-		'altName': 'Rotom-Mow'
+		'variation': 'Rotom-Mow'
 	},
 	{
 		'name': 'Uxie',
@@ -2115,7 +2115,7 @@ module.exports = [
 	{
 		'name': 'Giratina-Altered',
 		'id': 487,
-		'altName': 'Giratina-Origin'
+		'variation': 'Giratina-Origin'
 	},
 	{
 		'name': 'Cresselia',
@@ -2140,7 +2140,7 @@ module.exports = [
 	{
 		'name': 'Shaymin-Land',
 		'id': 492,
-		'altName': 'Shaymin-Sky'
+		'variation': 'Shaymin-Sky'
 	},
 	{
 		'name': 'Arceus',
@@ -2397,7 +2397,7 @@ module.exports = [
 	{
 		'name': 'Darmanitan',
 		'id': 555,
-		'altName': 'Darmanitan-Zen'
+		'variation': 'Darmanitan-Zen'
 	},
 	{
 		'name': 'Maractus',
@@ -2522,17 +2522,17 @@ module.exports = [
 	{
 		'name': 'Deerling-Spring',
 		'id': 585,
-		'altName': 'Deerling-Summer'
+		'variation': 'Deerling-Summer'
 	},
 	{
 		'name': 'Deerling-Spring',
 		'id': 585,
-		'altName': 'Deerling-Autumn'
+		'variation': 'Deerling-Autumn'
 	},
 	{
 		'name': 'Deerling-Spring',
 		'id': 585,
-		'altName': 'Deerling-Winter'
+		'variation': 'Deerling-Winter'
 	},
 	{
 		'name': 'Sawsbuck-Spring',
@@ -2541,17 +2541,17 @@ module.exports = [
 	{
 		'name': 'Sawsbuck-Spring',
 		'id': 586,
-		'altName': 'Sawsbuck-Summer'
+		'variation': 'Sawsbuck-Summer'
 	},
 	{
 		'name': 'Sawsbuck-Spring',
 		'id': 586,
-		'altName': 'Sawsbuck-Autumn'
+		'variation': 'Sawsbuck-Autumn'
 	},
 	{
 		'name': 'Sawsbuck-Spring',
 		'id': 586,
-		'altName': 'Sawsbuck-Winter'
+		'variation': 'Sawsbuck-Winter'
 	},
 	{
 		'name': 'Emolga',
@@ -2776,7 +2776,7 @@ module.exports = [
 	{
 		'name': 'Tornadus',
 		'id': 641,
-		'altName': 'Tornadus-Therian'
+		'variation': 'Tornadus-Therian'
 	},
 	{
 		'name': 'Thundurus',
@@ -2785,7 +2785,7 @@ module.exports = [
 	{
 		'name': 'Thundurus',
 		'id': 642,
-		'altName': 'Thundurus-Therian'
+		'variation': 'Thundurus-Therian'
 	},
 	{
 		'name': 'Reshiram',
@@ -2802,7 +2802,7 @@ module.exports = [
 	{
 		'name': 'Landorus',
 		'id': 645,
-		'altName': 'Landorus-Therian'
+		'variation': 'Landorus-Therian'
 	},
 	{
 		'name': 'Kyurem',
@@ -2811,12 +2811,12 @@ module.exports = [
 	{
 		'name': 'Kyurem',
 		'id': 646,
-		'altName': 'Kyurem-White'
+		'variation': 'Kyurem-White'
 	},
 	{
 		'name': 'Kyurem',
 		'id': 646,
-		'altName': 'Kyurem-Black'
+		'variation': 'Kyurem-Black'
 	},
 	{
 		'name': 'Keldeo',
@@ -2825,7 +2825,7 @@ module.exports = [
 	{
 		'name': 'Keldeo',
 		'id': 647,
-		'altName': 'Keldeo-Resolute'
+		'variation': 'Keldeo-Resolute'
 	},
 	{
 		'name': 'Meloetta',
@@ -2834,7 +2834,7 @@ module.exports = [
 	{
 		'name': 'Meloetta',
 		'id': 648,
-		'altName': 'Meloetta-Pirouette'
+		'variation': 'Meloetta-Pirouette'
 	},
 	{
 		'name': 'Genesect',
@@ -2879,7 +2879,7 @@ module.exports = [
 	{
 		'name': 'Greninja',
 		'id': 658,
-		'altName': 'Greninja-Ash'
+		'variation': 'Greninja-Ash'
 	},
 	{
 		'name': 'Bunnelby',
@@ -2932,22 +2932,22 @@ module.exports = [
 	{
 		'name': 'Floette',
 		'id': 670,
-		'altName': 'Floette_Yellow_Flower_Dream'
+		'variation': 'Floette_Yellow_Flower_Dream'
 	},
 	{
 		'name': 'Floette',
 		'id': 670,
-		'altName': 'Floette_Orange_Flower_Dream'
+		'variation': 'Floette_Orange_Flower_Dream'
 	},
 	{
 		'name': 'Floette',
 		'id': 670,
-		'altName': 'Floette_Blue_Flower_Dream'
+		'variation': 'Floette_Blue_Flower_Dream'
 	},
 	{
 		'name': 'Floette',
 		'id': 670,
-		'altName': 'Floette_White_Flower_Dream'
+		'variation': 'Floette_White_Flower_Dream'
 	},
 	{
 		'name': 'Florges',
@@ -3144,12 +3144,12 @@ module.exports = [
 	{
 		'name': 'Zygarde',
 		'id': 718,
-		'altName': 'Zygarde-10Percent'
+		'variation': 'Zygarde-10Percent'
 	},
 	{
 		'name': 'Zygarde',
 		'id': 718,
-		'altName': 'Zygarde-Complete'
+		'variation': 'Zygarde-Complete'
 	},
 	{
 		'name': 'Diancie',
@@ -3162,7 +3162,7 @@ module.exports = [
 	{
 		'name': 'Hoopa',
 		'id': 720,
-		'altName': 'Hoopa-Unbound'
+		'variation': 'Hoopa-Unbound'
 	},
 	{
 		'name': 'Volcanion',
@@ -3251,17 +3251,17 @@ module.exports = [
 	{
 		'name': 'Oricorio-Baile',
 		'id': 741,
-		'altName': 'Oricorio-Pom-Pom'
+		'variation': 'Oricorio-Pom-Pom'
 	},
 	{
 		'name': 'Oricorio-Baile',
 		'id': 741,
-		'altName': 'Oricorio-Pa\'u'
+		'variation': 'Oricorio-Pa\'u'
 	},
 	{
 		'name': 'Oricorio-Baile',
 		'id': 741,
-		'altName': 'Oricorio-Sensu'
+		'variation': 'Oricorio-Sensu'
 	},
 	{
 		'name': 'Cutiefly',
@@ -3282,12 +3282,12 @@ module.exports = [
 	{
 		'name': 'Lycanroc',
 		'id': 745,
-		'altName': 'Lycanroc-Midnight'
+		'variation': 'Lycanroc-Midnight'
 	},
 	{
 		'name': 'Lycanroc',
 		'id': 745,
-		'altName': 'Lycanroc-Dusk'
+		'variation': 'Lycanroc-Dusk'
 	},
 	{
 		'name': 'Wishiwashi-Solo',
@@ -3296,7 +3296,7 @@ module.exports = [
 	{
 		'name': 'Wishiwashi-Solo',
 		'id': 746,
-		'altName': 'Wishiwashi-School'
+		'variation': 'Wishiwashi-School'
 	},
 	{
 		'name': 'Mareanie',
@@ -3413,7 +3413,7 @@ module.exports = [
 	{
 		'name': 'Minior',
 		'id': 774,
-		'altName': 'Minior-Core'
+		'variation': 'Minior-Core'
 	},
 	{
 		'name': 'Komala',
@@ -3434,7 +3434,7 @@ module.exports = [
 	{
 		'name': 'Mimikyu',
 		'id': 778,
-		'altName': 'Mimikyu_Busted_Dream'
+		'variation': 'Mimikyu_Busted_Dream'
 	},
 	{
 		'name': 'Bruxish',
@@ -3527,17 +3527,17 @@ module.exports = [
 	{
 		'name': 'Necrozma',
 		'id': 800,
-		'altName': 'Necrozma-Dusk_Mane'
+		'variation': 'Necrozma-Dusk_Mane'
 	},
 	{
 		'name': 'Necrozma',
 		'id': 800,
-		'altName': 'Necrozma-Dawn_Wings'
+		'variation': 'Necrozma-Dawn_Wings'
 	},
 	{
 		'name': 'Necrozma',
 		'id': 800,
-		'altName': 'Necrozma-Ultra'
+		'variation': 'Necrozma-Ultra'
 	},
 	{
 		'name': 'Magearna',

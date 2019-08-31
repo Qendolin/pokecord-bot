@@ -44,10 +44,11 @@ async function calcHashes() {
 			if (!elem) {
 				continue
 			}
-			console.log('downloading ', elem.altName)
-			const willReturn = extractImgUrl(elem.id, elem.altName)
+			const variationName = elem.variation || elem.name
+			console.log('downloading ', variationName)
+			const willReturn = extractImgUrl(elem.id, variationName)
 				.then((url) => {
-					console.log(`Found url "${url}" for ${elem.altName}`)
+					console.log(`Found url "${url}" for ${variationName}`)
 					return url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method)
 				})
 				.then((res) => res && res.hash)
@@ -56,7 +57,7 @@ async function calcHashes() {
 				if (!hash) {
 					return
 				}
-				console.log(hash, elem.altName)
+				console.log(hash, variationName)
 				scapedData[hash] = elem.name
 			})
 		}
@@ -74,13 +75,11 @@ async function calcImgs() {
 			if (!elem) {
 				continue
 			}
-			if (elem.name.indexOf('-mega') !== -1) {
-				continue
-			}
-			console.log('downloading ', elem.name)
-			const willReturn = extractImgUrl(elem.id, elem.name)
+			const variationName = elem.variation || elem.name
+			console.log('downloading ', variationName)
+			const willReturn = extractImgUrl(elem.id, variationName)
 				.then((url) => {
-					console.log(`Found url "${url}" for ${elem.name}`)
+					console.log(`Found url "${url}" for ${variationName}`)
 					return url && fetch(url)
 				})
 				.then((res) => res && res.blob())
@@ -106,8 +105,8 @@ async function calcImgs() {
 				if (!url) {
 					return
 				}
-				console.log(url, elem.name)
-				scapedData[elem.name] = url
+				console.log(url, variationName)
+				scapedData[variationName] = url
 			})
 		}
 		resolve(Promise.all(promises).then(() => scapedData))
