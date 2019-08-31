@@ -1,6 +1,7 @@
 const PokemonComparer = require('../compare.autocatch')
 const CanvasTransformer = require('../image/process.image.autocatch')
 const { Const } = require('../../utils')
+const dHash = require('../image/dhash.image.autocatch')
 
 //TODO: relocate all of this
 async function extractImgUrl(pId, pName) {
@@ -49,7 +50,10 @@ async function calcHashes(data) {
 			}
 			console.log('downloading ', elem.name)
 			const willReturn = extractImgUrl(i + 1, elem.name)
-				.then((url) => url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method))
+				.then((url) => {
+					console.log(`Found url "${url}" for ${elem.name}`)
+					return url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method)
+				})
 				.then((res) => res && res.hash)
 			promises.push(willReturn)
 			willReturn.then((hash) => {
@@ -84,15 +88,27 @@ async function calcImgs(data) {
 			}
 			console.log('downloading ', elem.name)
 			const willReturn = extractImgUrl(i + 1, elem.name)
-				.then((url) => url && fetch(url))
+				.then((url) => {
+					console.log(`Found url "${url}" for ${elem.name}`)
+					return url && fetch(url)
+				})
 				.then((res) => res && res.blob())
 				.then(async (blob) => {
 					if (!blob) {
 						return
 					}
 					const img = await new CanvasTransformer(blob)
-					img.filter('grayscale').resize(Const.ImgHash.Resolution + 1, Const.ImgHash.Resolution + 1)
-					return img.toDataUrl()
+					img.resize(256, 256)
+						.crop('auto', 'auto')
+						.aspect(1 / 1, 'add', 'transparent')
+					const res = await dHash(await img.toBlob(), {
+						width: Const.ImgHash.Resolution + 1,
+						height: Const.ImgHash.Resolution + 1,
+						direction: Const.ImgHash.Options.direction,
+						debug: true
+					})
+					console.log(res)
+					return res.debug.image
 				})
 			promises.push(willReturn)
 			willReturn.then((url) => {

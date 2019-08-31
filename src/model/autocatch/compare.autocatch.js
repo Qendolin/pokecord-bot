@@ -55,9 +55,10 @@ PokemonComparer.hashFromUrl = (url, algo, options) => {
 		.then((res) => res.blob())
 		.then(async (blob) => {
 			const cropped = await new CanvasTransformer(blob)
-			cropped.resize(256, 256)
-			cropped.crop('auto', 'auto')
-			cropped.aspect(16 / 9, 'fit', '#00000000')
+			cropped
+				.resize(256, 256)
+				.crop('auto', 'auto')
+				.aspect(1 / 1, 'add', 'transparent')
 			const croppedBlob = await cropped.toBlob()
 			switch (algo) {
 				case 'ahash':

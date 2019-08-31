@@ -117,7 +117,7 @@ class CanvasTransformer {
 	 * @param {number|string} height <number>, 'auto', 'keepAspect. Can be negative
 	 * @param {number|string} offsetX <number>, 'center'. Ignored if {width} is 'auto'. Can be negative
 	 * @param {number|string} offsetY <number>, 'center'. Ignored if {height} is 'auto'. Can be negative
-	 * @param {?cropOptions} options
+	 * @param {cropOptions} [options]
 	 */
 	crop(width, height, offsetX, offsetY, options = {}) {
 		const { autoCropValue = 'alpha' } = options
@@ -221,25 +221,52 @@ class CanvasTransformer {
 		write.ctx.drawImage(read.canvas, absOffsetX, absOffsetY, absWidth, absHeight, 0, 0, absWidth, absHeight)
 		read.canvas.width = absWidth
 		read.canvas.height = absHeight
+
+		return this
 	}
 
 	/**
+	 * Sets the aspect ratio
 	 *
 	 * @param {number} ratio
-	 * @param {string} mode 'add', 'subtract'
-	 * @param {string} fillColor
+	 * @param {string} mode 'add', 'sub'
+	 * @param {string} [fillStyle] See {@link https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-fillstyle}
 	 */
-	aspect(ratio, mode, fillColor) {
+	aspect(ratio, mode, fillStyle) {
 		const { read, write } = this._swap()
 
-		let newWidth
-		let newHeight
+		let newWidth = read.canvas.width
+		let newHeight = read.canvas.height
+
+		let oldRatio = read.canvas.width / read.canvas.height
+		if (oldRatio == ratio) {
+			return this
+		}
 
 		if (mode == 'add') {
-			newWidth = read.canvas.width * ratio
-			//TODO
-		} else if (mode == 'subtract') {
+			if (read.canvas.width > read.canvas.height) {
+				newHeight *= oldRatio / ratio
+			} else {
+				newWidth *= ratio / oldRatio
+			}
+		} else if (mode == 'sub') {
+			if (read.canvas.width > read.canvas.height) {
+				newWidth /= oldRatio / ratio
+			} else {
+				newHeight /= ratio / oldRatio
+			}
 		}
+
+		write.canvas.width = newWidth
+		write.canvas.height = newHeight
+		write.ctx.fillStyle = fillStyle
+		write.ctx.fillRect(0, 0, newWidth, newHeight)
+		const dWidth = newWidth - read.canvas.width
+		const dHeight = newHeight - read.canvas.height
+		write.ctx.drawImage(read.canvas, dWidth / 2, dHeight / 2)
+		read.canvas.width = newWidth
+		read.canvas.height = newHeight
+		return this
 	}
 
 	/**

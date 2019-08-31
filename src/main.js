@@ -28,20 +28,28 @@ client.on('ready', () => {
 })
 const receiver = new Receiver(client, EncounterMapper, WrongGuessMapper, AnyMapper)
 
+//Debug
 let guesses = 0
 let wrong = 0
+let lastGuess
+window.wrongGuesses = []
 
 receiver.start()
 receiver.on(AnyMapper.type, (msg) => console.log(msg))
-receiver.on(EncounterMapper.type, async (data) => {
+receiver.on(EncounterMapper.type, async (data, org) => {
 	data = await data
 	console.log(data)
 	pokecordChannel.send(`.catch ${data.name}`)
 	guesses++
+	lastGuess = {
+		org,
+		data
+	}
 	console.log(guesses, wrong)
 })
 
 receiver.on('WrongGuess', () => {
 	wrong++
+	wrongGuesses.push(lastGuess)
 	console.log(guesses, wrong)
 })
