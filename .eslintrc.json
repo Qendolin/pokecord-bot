@@ -8,14 +8,21 @@
 	"extends": "eslint:recommended",
 	"globals": {
 		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly"
+		"SharedArrayBuffer": "readonly",
+		"BigInt": true
 	},
 	"parserOptions": {
 		"ecmaVersion": 2018,
 		"sourceType": "module"
 	},
 	"rules": {
-		"indent": ["warn", "tab"],
+		"indent": [
+			"warn",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
 		"dot-location": ["warn", "property"],
 		"dot-notation": "warn",
 		"no-invalid-this": "warn",
