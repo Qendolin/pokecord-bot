@@ -44,10 +44,10 @@ async function calcHashes() {
 			if (!elem) {
 				continue
 			}
-			console.log('downloading ', elem.name)
-			const willReturn = extractImgUrl(elem.id, elem.name)
+			console.log('downloading ', elem.altName)
+			const willReturn = extractImgUrl(elem.id, elem.altName)
 				.then((url) => {
-					console.log(`Found url "${url}" for ${elem.name}`)
+					console.log(`Found url "${url}" for ${elem.altName}`)
 					return url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method)
 				})
 				.then((res) => res && res.hash)
@@ -56,7 +56,7 @@ async function calcHashes() {
 				if (!hash) {
 					return
 				}
-				console.log(hash, elem.name)
+				console.log(hash, elem.altName)
 				scapedData[hash] = elem.name
 			})
 		}

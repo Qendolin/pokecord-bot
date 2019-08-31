@@ -1,6 +1,6 @@
 class CanvasTransformer {
 	/**
-	 * @param {string|Array|ArrayBuffer|Buffer|Blob|HTMLImageElement} src url or buffer
+	 * @param {string|Array|ArrayBuffer|Buffer|Blob|HTMLImageElement} src url or buffer or Image
 	 * @returns {Promise<CanvasTransformer>}
 	 */
 	constructor(src) {
