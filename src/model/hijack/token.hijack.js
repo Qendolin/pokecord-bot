@@ -32,4 +32,4 @@ class TokenHijacker {
 	}
 }
 
-module.exports = TokenHijacker
+module.exports = new TokenHijacker()

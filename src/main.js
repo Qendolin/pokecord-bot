@@ -1,78 +1,40 @@
-/*
 const { Receiver } = require('./model/messaging/receiver.messaging')
 const { AnyMapper } = require('./model/messaging/mapper.messaging').init()
-const { Client } = require('discord.js')
-const TokenHijacker = new (require('./model/hijack/token.hijack'))()
-const { EncounterMapper, WrongGuessMapper } = require('./model/autocatch/mapper.autocatch').init({
-	debug: true
-})
+const Debug = require('./model/debug')
 
-window.Debug = require('./model/debug')
-*/
-const TokenHijacker = new (require('../src/model/hijack/token.hijack'))()
+const Logger = require('./model/logging/logger.logging')
+const TokenHijacker = require('./model/hijack/token.hijack')
 const { Client } = require('discord.js')
+const Sender = require('./model/messaging/sender.messaging')
+const { AutoLeveler } = require('./model/autolevel/autoleveler.autolevel')
+const { AutoCatcher } = require('./model/autocatch/autocatcher.autocatch')
+
 const client = new Client()
-const sender = new (require('./model/messaging/sender.messaging'))(client)
-const autolvling = new (require('./model/auto-leveling/auto-leveling'))(sender, client)
-require('./model/auto-leveling/mapper.auto-leveling').init()
+const sender = new Sender(client)
+const autoLeveler = new AutoLeveler(client, sender)
+const autoCatcher = new AutoCatcher(client, sender)
+const receiver = new Receiver(client, AnyMapper)
 
+const exposed = {
+	Debug,
+	AutoCatcher: autoCatcher,
+	AutoLeveler: autoLeveler
+}
+window.PCBot = exposed
 
 console.log('Click Me!')
 
 TokenHijacker.disableDevToolsCheck()
 const token = TokenHijacker.getToken()
 
-/*
-let pokecordChannel
-const client = new Client()
 client.login(token)
-client.on('ready', () => {
-	console.log('Client Ready')
-	const pokecordChannels = client.channels.filter((channel) => channel.name == 'pokecord')
-	pokecordChannel = pokecordChannels
-		.filter((c) => c.type === 'text' && c.permissionsFor(client.user).has('SEND_MESSAGES'))
-		.first()
-	setInterval(() => {
-		pokecordChannel.send('karakai jouzu no takagi-san :100: :fire: :fire: :fire:')
-	}, 1200)
-})
-const receiver = new Receiver(client, EncounterMapper, WrongGuessMapper, AnyMapper)
 
-//Debug
-let guesses = 0
-let wrong = 0
-let lastGuess
-window.wrongGuesses = []
+client.on('ready', () => {
+	Logger.log('Client Ready')
+	sender.setChannel('pokecord')
+	Logger.log('In Chrome, select the "Pokecord Bot" frame in the top left of the console')
+	Logger.log('Use PCBot to access the bot')
+})
 
 receiver.start()
 receiver.on(AnyMapper.type, (msg) => console.log(msg))
-receiver.on(EncounterMapper.type, async (data, org) => {
-	data = await data
-	console.log(data)
-	pokecordChannel.send(`.catch ${data.name}`)
-	guesses++
-	lastGuess = {
-		org,
-		data
-	}
-	console.log(guesses, wrong)
-})
-
-receiver.on('WrongGuess', () => {
-	wrong++
-	window.wrongGuesses.push(lastGuess)
-	console.log(guesses, wrong)
-})
-*/
-client.login(token)
-client.on('ready', () => console.log('Client Ready'))
-
-function main() {
-	client.on('ready', () => {
-		console.log('LUUUUUUUUUUUUUL')
-		sender.setChannel('pokecord')
-		autolvling.start([495, 458])
-	})
-}
-
-main()

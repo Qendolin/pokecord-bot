@@ -44,9 +44,27 @@ function init(options = {}) {
 		map: () => {}
 	}
 
+	const CorrectGuessMapper = {
+		type: 'CorrectGuess',
+		identify: (msg) => {
+			const messageRegex = /^Congratulations <@\d+>! You caught a level \d{1,3} [\u{0000}-\u{FFFF}]+!$/u
+			try {
+				return msg.author.id == pokecordId && msg.content.match(messageRegex)
+			} catch (error) {
+				return false
+			}
+		},
+		map: (msg) => {
+			const messageRegex = /^Congratulations <@(\d+)>! You caught a level (\d{1,3}) ([\u{0000}-\u{FFFF}]+)!$/u
+			const [, userId, level, pokemon] = messageRegex.exec(msg.content)
+			return { userId, level, pokemon }
+		}
+	}
+
 	return {
 		EncounterMapper,
-		WrongGuessMapper
+		WrongGuessMapper,
+		CorrectGuessMapper
 	}
 }
 

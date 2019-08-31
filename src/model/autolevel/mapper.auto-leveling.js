@@ -1,14 +1,15 @@
-const { Receiver, MessageType } = require('../messaging/receiver.messaging')
 const { Const } = require('../utils')
 
-function init() {
-	Receiver.MessageMappers[MessageType.LevelUp] = {
+function init(options = {}) {
+	const pokecordId = options.pokecordId || Const.PokecordId
+	const LevelUpMapper = {
+		type: 'LevelUp',
 		identify: (msg) => {
 			const titleRegex = /^Congratulations .*!$/
 			const descrRegex = /^Your [\u{0000}-\u{FFFF}]+ is now level \d{1,3}!$/u
 			try {
 				return (
-					msg.author.id == Const.PokecordId &&
+					msg.author.id == pokecordId &&
 					msg.embeds[0].title.match(titleRegex) &&
 					msg.embeds[0].description.match(descrRegex)
 				)
@@ -29,11 +30,12 @@ function init() {
 		}
 	}
 
-	Receiver.MessageMappers[MessageType.Selected] = {
+	const SelectedMapper = {
+		type: 'Selected',
 		identify: (msg) => {
 			const messageRegex = /^You selected your level \d{1,3} [\u{0000}-\u{FFFF}]+. N°\d+$/u
 			try {
-				return msg.author.id == Const.PokecordId && msg.content.match(messageRegex)
+				return msg.author.id == pokecordId && msg.content.match(messageRegex)
 			} catch (_) {
 				return false
 			}
@@ -48,6 +50,8 @@ function init() {
 			}
 		}
 	}
+
+	return { LevelUpMapper, SelectedMapper }
 }
 
 module.exports = { init }

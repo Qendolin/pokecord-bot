@@ -1,36 +1,37 @@
-const { Receiver, MessageType } = require('../messaging/receiver.messaging')
+const { Receiver } = require('../messaging/receiver.messaging')
+const { LevelUpMapper, SelectedMapper } = require('./mapper.auto-leveling').init()
 // eslint-disable-next-line no-unused-vars
 const { Client } = require('discord.js')
-module.exports = class AutoLeveling {
+class AutoLeveler {
 	/**
-	 *
-	 * @param {*} messaging
 	 * @param {Client} client
+	 * @param {*} sender
 	 */
-	constructor(messaging, client) {
-		this.messaging = messaging
-		this.client = client
-		this.receiver = new Receiver(client)
-		this.receiver.on(MessageType.Selected, (mappedMessage) => {
+	constructor(client, sender) {
+		this._sender = sender
+		this._client = client
+		this._receiver = new Receiver(client, LevelUpMapper, SelectedMapper)
+		this._receiver.on(SelectedMapper.type, (mappedMessage) => {
 			if (this._onSelected) {
 				this._onSelected(mappedMessage)
 			}
 		})
-		this.receiver.on(MessageType.LevelUp, (mappedMessage) => {
+		this._receiver.on(LevelUpMapper.type, (mappedMessage) => {
 			if (this._onLevelUp) {
 				this._onLevelUp(mappedMessage)
 			}
 		})
+		this._started
 	}
 	/**
 	 * @param {int[]} pkmnIds
 	 */
 	async start(pkmnIds) {
 		let pkmnIdx = 0
-		this.receiver.start()
+		this._receiver.start()
 
 		while (pkmnIds.length > 0) {
-			this.messaging.sendMessage(`.select ${pkmnIds[pkmnIdx]}`)
+			this._sender.sendMessage(`.select ${pkmnIds[pkmnIdx]}`)
 			const newLevel = await this._level(pkmnIds[pkmnIdx]).catch(() => {})
 
 			if (newLevel == null) {
@@ -41,15 +42,14 @@ module.exports = class AutoLeveling {
 			} else {
 				pkmnIdx++
 			}
-			// eslint-disable-next-line require-atomic-updates
 			pkmnIdx %= pkmnIds.length
 		}
 		this.stop()
 	}
 
 	stop() {
-		this.receiver.stop()
-		clearInterval(this.interval)
+		this._receiver.stop()
+		clearInterval(this._interval)
 	}
 
 	async _level(pkmnId) {
@@ -79,17 +79,17 @@ module.exports = class AutoLeveling {
 			return Promise.resolve(100)
 		}
 
-		const interval = setInterval(() => {
-			this.messaging.sendMessage(this._randomText())
+		this._interval = setInterval(() => {
+			this._sender.sendMessage(this._randomText())
 		}, 1000)
 
 		return new Promise((resolve) => {
 			this._onLevelUp = (mappedMessage) => {
 				const { level, username } = mappedMessage
-				if (this.client.user.username !== username) {
+				if (this._client.user.username !== username) {
 					return
 				}
-				clearInterval(interval)
+				clearInterval(this._interval)
 				this._onLevelUp = null
 				resolve(level)
 			}
@@ -107,3 +107,5 @@ module.exports = class AutoLeveling {
 		return result
 	}
 }
+
+module.exports = { AutoLeveler }
