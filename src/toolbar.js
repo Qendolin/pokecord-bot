@@ -1,4 +1,4 @@
-const { getPokemon, calcHashes, calcImgs } = require('./model/autocatch/scrape/scraper.scrape')
+const { calcHashes, calcImgs } = require('./model/autocatch/scrape/scraper.scrape')
 
 window.Debug = require('./model/debug')
 
@@ -7,11 +7,11 @@ chrome.browserAction.onClicked.addListener(async () => {
 })
 
 window.calcHashes = async () => {
-	const data = await calcHashes(await getPokemon())
+	const data = await calcHashes()
 	console.log(JSON.stringify(data, null, 2))
 }
 
 window.calcImgs = async () => {
-	const data = await calcImgs(await getPokemon())
+	const data = await calcImgs()
 	console.log(JSON.stringify(data, null, 2))
 }

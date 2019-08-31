@@ -50,6 +50,6 @@ receiver.on(EncounterMapper.type, async (data, org) => {
 
 receiver.on('WrongGuess', () => {
 	wrong++
-	wrongGuesses.push(lastGuess)
+	window.wrongGuesses.push(lastGuess)
 	console.log(guesses, wrong)
 })

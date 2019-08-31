@@ -5,8 +5,6 @@ const dHash = require('../image/dhash.image.autocatch')
 
 //TODO: relocate all of this
 async function extractImgUrl(pId, pName) {
-	//Capitalize
-	pName = pName.charAt(0).toUpperCase() + pName.slice(1)
 	pId = `000${pId}`.slice(-3)
 
 	const parser = new DOMParser()
@@ -36,20 +34,18 @@ async function extractImgUrl(pId, pName) {
 	return `https:${img.getAttribute('src')}`
 }
 
-async function calcHashes(data) {
+async function calcHashes() {
 	return new Promise((resolve) => {
+		const pokemon = require('../../../data/pokemon')
 		const scapedData = {}
 		const promises = []
-		for (let i = 0; i < data.length; i++) {
-			const elem = data[i]
+		for (let i = 0; i < pokemon.length; i++) {
+			const elem = pokemon[i]
 			if (!elem) {
 				continue
 			}
-			if (elem.name.indexOf('-mega') !== -1) {
-				continue
-			}
 			console.log('downloading ', elem.name)
-			const willReturn = extractImgUrl(i + 1, elem.name)
+			const willReturn = extractImgUrl(elem.id, elem.name)
 				.then((url) => {
 					console.log(`Found url "${url}" for ${elem.name}`)
 					return url && PokemonComparer.hashFromUrl(url, Const.ImgHash.Method)
@@ -68,18 +64,13 @@ async function calcHashes(data) {
 	})
 }
 
-function getPokemon() {
-	return fetch('https://pokeapi.co/api/v2/pokemon/?limit=69420')
-		.then((res) => res.json())
-		.then((json) => json.results)
-}
-
-async function calcImgs(data) {
+async function calcImgs() {
 	return new Promise((resolve) => {
+		const pokemon = require('../../../data/pokemon')
 		const scapedData = {}
 		const promises = []
-		for (let i = 0; i < data.length; i++) {
-			const elem = data[i]
+		for (let i = 0; i < pokemon.length; i++) {
+			const elem = pokemon[i]
 			if (!elem) {
 				continue
 			}
@@ -87,7 +78,7 @@ async function calcImgs(data) {
 				continue
 			}
 			console.log('downloading ', elem.name)
-			const willReturn = extractImgUrl(i + 1, elem.name)
+			const willReturn = extractImgUrl(elem.id, elem.name)
 				.then((url) => {
 					console.log(`Found url "${url}" for ${elem.name}`)
 					return url && fetch(url)
@@ -123,4 +114,4 @@ async function calcImgs(data) {
 	})
 }
 
-module.exports = { calcHashes, getPokemon, calcImgs, extractImgUrl }
+module.exports = { calcHashes, calcImgs, extractImgUrl }
