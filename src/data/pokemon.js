@@ -574,7 +574,8 @@ module.exports = [
 		'id': 121
 	},
 	{
-		'name': 'Mr._Mime',
+		'name': 'Mr. Mime',
+		'variation': 'Mr._Mime',
 		'id': 122
 	},
 	{
@@ -1775,19 +1776,31 @@ module.exports = [
 	},
 	{
 		'name': 'Burmy',
+		'variation': 'Burmy-Plant',
 		'id': 412
 	},
 	{
-		'name': 'Wormadam-Plant',
+		'name': 'Burmy',
+		'variation': 'Burmy-Sandy',
+		'id': 412
+	},
+	{
+		'name': 'Burmy',
+		'variation': 'Burmy-Trash',
+		'id': 412
+	},
+	{
+		'name': 'Wormadam',
+		'variation': 'Wormadam-Plant',
 		'id': 413
 	},
 	{
-		'name': 'Wormadam-Plant',
+		'name': 'Wormadam',
 		'id': 413,
 		'variation': 'Wormadam-Sandy'
 	},
 	{
-		'name': 'Wormadam-Plant',
+		'name': 'Wormadam',
 		'id': 413,
 		'variation': 'Wormadam-Trash'
 	},
@@ -1892,7 +1905,8 @@ module.exports = [
 		'id': 438
 	},
 	{
-		'name': 'Mime_Jr',
+		'name': 'Mime Jr.',
+		'variation': 'Mime_Jr',
 		'id': 439
 	},
 	{
@@ -2109,11 +2123,12 @@ module.exports = [
 		'id': 486
 	},
 	{
-		'name': 'Giratina-Altered',
+		'name': 'Giratina',
+		'variation': 'Giratina-Altered',
 		'id': 487
 	},
 	{
-		'name': 'Giratina-Altered',
+		'name': 'Giratina',
 		'id': 487,
 		'variation': 'Giratina-Origin'
 	},
@@ -2134,11 +2149,12 @@ module.exports = [
 		'id': 491
 	},
 	{
-		'name': 'Shaymin-Land',
+		'name': 'Shaymin',
+		'variation': 'Shaymin-Land',
 		'id': 492
 	},
 	{
-		'name': 'Shaymin-Land',
+		'name': 'Shaymin',
 		'id': 492,
 		'variation': 'Shaymin-Sky'
 	},
@@ -2516,40 +2532,42 @@ module.exports = [
 		'id': 584
 	},
 	{
-		'name': 'Deerling-Spring',
+		'name': 'Deerling',
+		'variation': 'Deerling-Spring',
 		'id': 585
 	},
 	{
-		'name': 'Deerling-Spring',
+		'name': 'Deerling',
 		'id': 585,
 		'variation': 'Deerling-Summer'
 	},
 	{
-		'name': 'Deerling-Spring',
+		'name': 'Deerling',
 		'id': 585,
 		'variation': 'Deerling-Autumn'
 	},
 	{
-		'name': 'Deerling-Spring',
+		'name': 'Deerling',
 		'id': 585,
 		'variation': 'Deerling-Winter'
 	},
 	{
-		'name': 'Sawsbuck-Spring',
+		'name': 'Sawsbuck',
+		'variation': 'Sawsbuck-Spring',
 		'id': 586
 	},
 	{
-		'name': 'Sawsbuck-Spring',
+		'name': 'Sawsbuck',
 		'id': 586,
 		'variation': 'Sawsbuck-Summer'
 	},
 	{
-		'name': 'Sawsbuck-Spring',
+		'name': 'Sawsbuck',
 		'id': 586,
 		'variation': 'Sawsbuck-Autumn'
 	},
 	{
-		'name': 'Sawsbuck-Spring',
+		'name': 'Sawsbuck',
 		'id': 586,
 		'variation': 'Sawsbuck-Winter'
 	},
@@ -2990,7 +3008,17 @@ module.exports = [
 		'id': 680
 	},
 	{
-		'name': 'Aegislash-Shield',
+		'name': 'Aegislash',
+		'id': 681
+	},
+	{
+		'name': 'Aegislash',
+		'variation': 'Aegislash-Shield',
+		'id': 681
+	},
+	{
+		'name': 'Aegislash',
+		'variation': 'Aegislash-Blade',
 		'id': 681
 	},
 	{
@@ -3245,21 +3273,22 @@ module.exports = [
 		'id': 740
 	},
 	{
-		'name': 'Oricorio-Baile',
+		'name': 'Oricorio',
+		'variation': 'Oricorio-Baile',
 		'id': 741
 	},
 	{
-		'name': 'Oricorio-Baile',
+		'name': 'Oricorio',
 		'id': 741,
 		'variation': 'Oricorio-Pom-Pom'
 	},
 	{
-		'name': 'Oricorio-Baile',
+		'name': 'Oricorio',
 		'id': 741,
 		'variation': 'Oricorio-Pa\'u'
 	},
 	{
-		'name': 'Oricorio-Baile',
+		'name': 'Oricorio',
 		'id': 741,
 		'variation': 'Oricorio-Sensu'
 	},
@@ -3290,11 +3319,12 @@ module.exports = [
 		'variation': 'Lycanroc-Dusk'
 	},
 	{
-		'name': 'Wishiwashi-Solo',
+		'name': 'Wishiwashi',
+		'variation': 'Wishiwashi-Solo',
 		'id': 746
 	},
 	{
-		'name': 'Wishiwashi-Solo',
+		'name': 'Wishiwashi',
 		'id': 746,
 		'variation': 'Wishiwashi-School'
 	},
@@ -3461,19 +3491,23 @@ module.exports = [
 		'id': 784
 	},
 	{
-		'name': 'Tapu_Koko',
+		'name': 'Tapu Koko',
+		'variation': 'Tapu_Koko',
 		'id': 785
 	},
 	{
-		'name': 'Tapu_Lele',
+		'name': 'Tapu Lele',
+		'variation': 'Tapu_Lele',
 		'id': 786
 	},
 	{
-		'name': 'Tapu_Bulu',
+		'name': 'Tapu Bulu',
+		'variation': 'Tapu_Bulu',
 		'id': 787
 	},
 	{
-		'name': 'Tapu_Fini',
+		'name': 'Tapu Fini',
+		'variation': 'Tapu_Fini',
 		'id': 788
 	},
 	{
