@@ -19,7 +19,8 @@ module.exports = class Sender {
 	}
 
 	send(message) {
-		this._toBeSent.push(message)
+		//this._toBeSent.push(message)
+		this.sendNow(message)
 	}
 
 	sendNow(message) {
