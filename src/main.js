@@ -1,5 +1,6 @@
 const { Receiver } = require('./model/messaging/receiver.messaging')
 const { AnyMapper } = require('./model/messaging/mapper.messaging').init()
+const { Const } = require('./model/utils')
 const Debug = require('./model/debug')
 
 const Logger = require('./model/logging/logger.logging')
@@ -30,7 +31,13 @@ const token = TokenHijacker.getToken()
 
 client.login(token)
 
-client.on('ready', () => {
+client.on('ready', async () => {
+	const user = await client.fetchUser(Const.PokecordId)
+	if (user.presence.status !== 'online') {
+		Logger.warn('Pokecord not online')
+		return
+	}
+
 	Logger.log('Client Ready')
 	sender.setChannel('pokecord')
 	Logger.log('In Chrome, select the "Pokecord Bot" frame in the top left of the console')
