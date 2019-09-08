@@ -1,5 +1,5 @@
-const {Receiver} = require('../messaging/receiver.messaging')
-const {PokemonListMapper} = require('./mapper.autorelease').init()
+const { Receiver } = require('../messaging/receiver.messaging')
+const { PokemonListMapper } = require('./mapper.autorelease').init()
 
 class Indexer {
 	constructor(client, sender) {
@@ -10,10 +10,10 @@ class Indexer {
 		this._onPokemonList = this._onPokemonList.bind(this)
 
 		this._receiver.on(PokemonListMapper.type, this._onPokemonList)
-		this._index = []
 	}
 
 	start() {
+		this._index = []
 		if (this._started) {
 			return
 		}
@@ -29,12 +29,28 @@ class Indexer {
 		this._receiver.stop()
 	}
 
-	get() {
+	get() {}
 
-	}
+	async _indexAll() {
+		let max = this._index.length + 1
+		for (let page = 1; this._index.length < max; page++) {
+			this._sender.sendMessage(`.pokemon ${page}`)
+			const mapping = await new Promise((resolve) => {
+				this._onPokemonList = (res) => {
+					resolve(res)
+				}
+				setTimeout(() => {
+					resolve()
+				}, 5000)
+			})
+			if (!mapping) {
+				continue
+			}
 
-	_onPokemonList(mapping) {
-		this._index.push(...mapping.pokemon)
-		if(this.index)
+			max = mapping.showing.to
+			this._index.push(...mapping.pokemon)
+		}
 	}
 }
+
+module.exports = Indexer
