@@ -20,11 +20,31 @@ const receiver = new Receiver(client, AnyMapper)
 const exposed = {
 	Debug,
 	AutoCatcher: autoCatcher,
-	AutoLeveler: autoLeveler
+	AutoLeveler: autoLeveler,
+	help: () => {
+		Logger.log(`
+	- Auto Catching
+	  
+		Start
+		 Type PCBot.AutoCatcher.start() to start automatically catching all Pokémon.
+		
+		Stop
+		 Type PCBot.AutoCatcher.stop() to stop catching Pokémon.
+		
+		Statistics
+		 Type PCBot.AutoCatcher.statistics to view the statistics.
+
+	- Auto Leveling
+
+		Start
+		 Type PCBot.AutoLeveler.start( pokemonIds ) and provide an array of pokemon ids (the numbers from p!pokemon) as pokemonIds to start leveling those pokemon.
+
+		Stop
+		 Type PCBot.AutoLeveler.stop() to stop leveling.
+	`)
+	},
 }
 window.PCBot = exposed
-
-console.log('Click Me!')
 
 TokenHijacker.disableDevToolsCheck()
 const token = TokenHijacker.getToken()
@@ -43,6 +63,7 @@ client.on('ready', async () => {
 	Logger.log('In Chrome, select the "Pokecord Bot" frame in the top left of the console')
 	Logger.log('In Firefox use pcEval')
 	Logger.log('Use PCBot to access the bot')
+	Logger.log('Use PCBot.help() to view the help')
 })
 
 receiver.start()
