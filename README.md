@@ -23,7 +23,7 @@ This project was fun to make, however I am not interested anymore. Anyone is wel
 
 4.  Open Discord in your browser and open the console. You should see `[PCB] Client Ready` with more instructions.
 
-To update the hashes used for detecting pokemon open the console of the background script, call calcHashes(), wait for the process to finish and the copy the resulting json into /src/data/hashes.json
+To update the hashes used for detecting pokemon open the console of the background script, call `calcHashes()`, wait for the process to finish and the copy the resulting json into `/src/data/hashes.js`
 
 # branching
 
