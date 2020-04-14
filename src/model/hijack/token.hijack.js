@@ -9,13 +9,13 @@ class TokenHijacker {
 				set: () => false,
 				get: () => window.innerHeight,
 				configurable: false,
-				enumerable: true
+				enumerable: true,
 			})
 			Object.defineProperty(window, 'outerWidth', {
 				set: () => false,
 				get: () => window.innerWidth,
 				configurable: false,
-				enumerable: true
+				enumerable: true,
 			})
 		})
 	}

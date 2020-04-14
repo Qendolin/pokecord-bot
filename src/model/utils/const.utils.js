@@ -4,7 +4,7 @@ module.exports = {
 		Resolution: 12,
 		Method: 'dHash',
 		Options: {
-			direction: 'both'
-		}
-	}
+			direction: 'both',
+		},
+	},
 }

@@ -15,7 +15,7 @@ class Enum {
 				} else {
 					console.warn(`Property '${name}' is not part of Enum`)
 				}
-			}
+			},
 		})
 	}
 }

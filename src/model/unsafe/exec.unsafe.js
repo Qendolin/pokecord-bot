@@ -6,7 +6,7 @@ module.exports = {
 	 * @param {function} func function to execute in the top (page's) browsing context / frame
 	 * @throws {Error} If {func} cannot be serialized
 	 */
-	execInPageContext: function(func) {
+	execInPageContext: function (func) {
 		const code = func.toString()
 		//if firefox
 		if (typeof window.wrappedJSObject !== 'undefined') {
@@ -14,9 +14,9 @@ module.exports = {
 		} else {
 			const result = bookmarkleter(`(${code})()`, {
 				urlencode: false,
-				minify: true
+				minify: true,
 			})
 			location.href = result
 		}
-	}
+	},
 }

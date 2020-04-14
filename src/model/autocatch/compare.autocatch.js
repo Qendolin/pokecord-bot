@@ -37,7 +37,7 @@ class PokemonComparer {
 				result = {
 					name: this.table[hash2],
 					hash: hash2,
-					distance: dist
+					distance: dist,
 				}
 			}
 		}
@@ -66,7 +66,7 @@ PokemonComparer.hashFromUrl = (url, algo, options) => {
 					return aHash(croppedBlob, {
 						width: Const.ImgHash.Resolution,
 						height: Const.ImgHash.Resolution,
-						...options
+						...options,
 					})
 				case 'dHash':
 				case 'dhash':
@@ -74,7 +74,7 @@ PokemonComparer.hashFromUrl = (url, algo, options) => {
 						width: Const.ImgHash.Resolution + 1,
 						height: Const.ImgHash.Resolution + 1,
 						direction: Const.ImgHash.Options.direction,
-						...options
+						...options,
 					})
 			}
 		})

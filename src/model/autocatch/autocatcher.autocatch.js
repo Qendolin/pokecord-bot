@@ -15,7 +15,7 @@ class AutoCatcher {
 		this.statistics = {
 			correct: [],
 			wrong: [],
-			guesses: 0
+			guesses: 0,
 		}
 
 		this._receiver.on(EncounterMapper.type, this._onEncounter)

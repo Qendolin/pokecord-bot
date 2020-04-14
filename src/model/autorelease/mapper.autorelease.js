@@ -22,7 +22,7 @@ function init(options = {}) {
 					name,
 					level,
 					id,
-					nickname
+					nickname,
 				})
 			}
 			const footerRegex = /^Showing (\d+)-(\d+) of (\d+) pokémon matching this search\./
@@ -31,11 +31,11 @@ function init(options = {}) {
 				showing: {
 					from,
 					to,
-					of
+					of,
 				},
-				pokemon
+				pokemon,
 			}
-		}
+		},
 	}
 
 	return { PokemonListMapper }

@@ -25,9 +25,9 @@ function init(options = {}) {
 			return {
 				pokemon,
 				level,
-				username
+				username,
 			}
-		}
+		},
 	}
 
 	const SelectedMapper = {
@@ -46,9 +46,9 @@ function init(options = {}) {
 			return {
 				level,
 				pokemon,
-				pokemonId
+				pokemonId,
 			}
-		}
+		},
 	}
 
 	return { LevelUpMapper, SelectedMapper }

@@ -11,8 +11,8 @@ async function extractImgUrl(pId, pName) {
 
 	const html = await fetch(`https://bulbapedia.bulbagarden.net/wiki/File:${pId}${pName}.png`, {
 		headers: {
-			'Content-Type': 'text/html'
-		}
+			'Content-Type': 'text/html',
+		},
 	})
 		.then((res) => {
 			if (!res.ok) {
@@ -95,7 +95,7 @@ async function calcImgs() {
 						width: Const.ImgHash.Resolution + 1,
 						height: Const.ImgHash.Resolution + 1,
 						direction: Const.ImgHash.Options.direction,
-						debug: true
+						debug: true,
 					})
 					console.log(res)
 					return res.debug.image

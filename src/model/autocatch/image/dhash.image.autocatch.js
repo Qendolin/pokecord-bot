@@ -40,15 +40,15 @@ async function dHash(data, options = {}) {
 		`Computed hash. Hash: ${hash}, Options: ${JSON.stringify({
 			width,
 			height,
-			radix
+			radix,
 		})}`
 	)
 	const result = {
-		hash
+		hash,
 	}
 	if (debug) {
 		result.debug = {
-			image: img.toDataUrl()
+			image: img.toDataUrl(),
 		}
 	}
 	return result

@@ -39,5 +39,5 @@ module.exports = {
 	CanvasTranformer,
 	PokemonComparer: require('../autocatch/compare.autocatch'),
 	imageDifference,
-	getPokemonImage
+	getPokemonImage,
 }

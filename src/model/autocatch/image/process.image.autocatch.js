@@ -311,7 +311,7 @@ class CanvasTransformer {
 		const valG = parseInt(mask.slice(2, 4), 16)
 		const valB = parseInt(mask.slice(4, 6), 16)
 		const valA = parseInt(mask.slice(6, 8), 16)
-		return (r, g, b, a) => ((xR || r === valR) && (xG || g === valG)) || (xB || b === valB) || (xA || a === valA)
+		return (r, g, b, a) => ((xR || r === valR) && (xG || g === valG)) || xB || b === valB || xA || a === valA
 	}
 
 	_swap() {
@@ -343,12 +343,12 @@ class CanvasTransformer {
 		return {
 			read: {
 				ctx: inactiveCtx,
-				canvas: inactive
+				canvas: inactive,
 			},
 			write: {
 				ctx: activeCtx,
-				canvas: active
-			}
+				canvas: active,
+			},
 		}
 	}
 }

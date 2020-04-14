@@ -5,14 +5,14 @@ function init(options = {}) {
 	const AnyMapper = {
 		type: 'Any',
 		identify: (msg) => msg.author.id == pokecordId,
-		map: (msg) => msg
+		map: (msg) => msg,
 	}
 
 	return {
-		AnyMapper
+		AnyMapper,
 	}
 }
 
 module.exports = {
-	init
+	init,
 }
