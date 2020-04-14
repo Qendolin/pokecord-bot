@@ -15,7 +15,10 @@ function init(options = {}) {
 		type: 'Encounter',
 		identify: (msg) => {
 			try {
-				return msg.author.id == pokecordId && msg.embeds[0].title === '\u200c\u200cA wild pokémon has appeared!'
+				return (
+					msg.author.id == pokecordId &&
+					msg.embeds[0].title === '\u200c\u200cA wild pokémon has \u0430ppe\u0430red!'
+				)
 			} catch (_) {
 				return false
 			}
@@ -26,10 +29,10 @@ function init(options = {}) {
 				Promise.resolve({
 					...comparer.bestMatch(res.hash),
 					unknownHash: res.hash,
-					debug: res.debug
+					debug: res.debug,
 				})
 			)
-		}
+		},
 	}
 
 	const WrongGuessMapper = {
@@ -41,7 +44,7 @@ function init(options = {}) {
 				return false
 			}
 		},
-		map: () => {}
+		map: () => {},
 	}
 
 	const CorrectGuessMapper = {
@@ -58,16 +61,16 @@ function init(options = {}) {
 			const messageRegex = /^Congratulations <@(\d+)>! You caught a level (\d{1,3}) ([\u{0000}-\u{FFFF}]+)!$/u
 			const [, userId, level, pokemon] = messageRegex.exec(msg.content)
 			return { userId, level, pokemon }
-		}
+		},
 	}
 
 	return {
 		EncounterMapper,
 		WrongGuessMapper,
-		CorrectGuessMapper
+		CorrectGuessMapper,
 	}
 }
 
 module.exports = {
-	init
+	init,
 }
