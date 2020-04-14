@@ -1,5 +1,5 @@
-const {Receiver} = require('../messaging/receiver.messaging')
-const {PokemonListMapper} = require('./mapper.autorelease').init()
+const { Receiver } = require('../messaging/receiver.messaging')
+const { PokemonListMapper } = require('./mapper.autorelease').init()
 
 class Indexer {
 	constructor(client, sender) {
@@ -29,12 +29,12 @@ class Indexer {
 		this._receiver.stop()
 	}
 
-	get() {
-
-	}
+	get() {}
 
 	_onPokemonList(mapping) {
 		this._index.push(...mapping.pokemon)
-		if(this.index)
+		if (this.index) {
+			//TODO
+		}
 	}
 }
