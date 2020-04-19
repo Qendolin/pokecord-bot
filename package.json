@@ -1,0 +1,36 @@
+{
+	"name": "pokecord-bot",
+	"version": "1.0.0",
+	"description": "A bot for catching, leveling and trading pokecord pokemon",
+	"main": "index.js",
+	"scripts": {
+		"build": "build.bat",
+		"gen-doc": "mkdir \"doc\" && rd /S /Q \"doc\" && jsdoc -p -P ./package.json -r ./src/ -d ./doc/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Qendolin/pokecord-bot.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Qendolin/pokecord-bot/issues"
+	},
+	"homepage": "https://github.com/Qendolin/pokecord-bot#readme",
+	"dependencies": {
+		"bookmarkleter": "^1.0.1",
+		"browserify": "^16.5.0",
+		"browserify-shim": "^3.8.14",
+		"cost-of-modules": "^1.0.1",
+		"discord.js": "^11.5.1"
+	},
+	"devDependencies": {
+		"eslint": "^6.2.0",
+		"eslint-config-google": "^0.13.0",
+		"eslint-config-standard": "^13.0.1",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^9.1.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.0"
+	}
+}
