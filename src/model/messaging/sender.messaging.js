@@ -6,13 +6,15 @@ module.exports = class Sender {
 	}
 
 	setChannel(channelName) {
-		let pokecordChannels = this.client.channels.filter((channel) => channel.name == channelName)
+		let pokecordChannels = this.client.channels.filter(
+			(channel) => channel.name != null && channel.name.toLowerCase() == channelName.toLowerCase()
+		)
 		let pkcChannel = pokecordChannels
 			.filter((c) => c.type === 'text' && c.permissionsFor(this.client.user).has('SEND_MESSAGES'))
 			.first()
 
 		if (!pkcChannel) {
-			throw new Error('Channel cannot be set')
+			throw new Error('Failed to set channel. Make sure you have write permission.')
 		}
 
 		this.channel = pkcChannel

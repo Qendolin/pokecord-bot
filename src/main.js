@@ -59,7 +59,31 @@ client.on('ready', async () => {
 	}
 
 	Logger.log('Client Ready')
-	sender.setChannel('pokecord')
+	let channelSuccess = false
+	let channelName = 'pokecord'
+	Logger.log('Text channels: ')
+	Logger.log(
+		client.channels
+			.filter((ch) => ch.type === 'text' && ch.permissionsFor(client.user).has('SEND_MESSAGES'))
+			.reduce((acc, ch) => {
+				return `${acc}${ch.name}\n`
+			}, '\n')
+	)
+	while (!channelSuccess) {
+		try {
+			Logger.log(`Setting channel to "${channelName}"`)
+			sender.setChannel(channelName)
+			channelSuccess = true
+		} catch (err) {
+			Logger.warn(err)
+			channelName = prompt('What is the name of the pokecord channel?')
+			if (!channelName) {
+				Logger.log('Empty name supplied, stopping')
+				return
+			}
+			channelName = channelName.toLowerCase()
+		}
+	}
 	Logger.log('In Chrome, select the "Pokecord Bot" frame in the top left of the console')
 	Logger.log('In Firefox use pcEval')
 	Logger.log('Use PCBot to access the bot')
